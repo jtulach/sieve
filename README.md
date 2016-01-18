@@ -1,6 +1,6 @@
-# sieve
+# Sieves of Eratosthenes in Many Languages
 
-Implementing the sieve of Erathosthenes in various languages to demonstrate power of GraalVM and Truffle. Please download [GraalVM](http://www.oracle.com/technetwork/oracle-labs/program-languages/overview/index.html) before proceeding with experiments.
+Implementing the sieve of Eratosthenes in various languages to demonstrate power of GraalVM and Truffle. Please download [GraalVM](http://www.oracle.com/technetwork/oracle-labs/program-languages/overview/index.html) before proceeding with experiments.
 
 # Ruby Speed
 
