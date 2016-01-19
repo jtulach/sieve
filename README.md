@@ -23,3 +23,20 @@ $ graalvm/bin/node js/sieve.js
 ```
 
 We can see that after few warm-up iterations both systems achieve similar peek performance. On my computer one iteration takes around 500ms. That is still faster than GraalVM Ruby, but only three times (compared to more than 30x to MRI). Whether that justifies rewriting whole application from one language to another depends on the actual need for speed. Moreover there are better options...
+
+# Spice Ruby with JavaScript
+
+Rather than rewriting whole application into a new language, why not rewrite
+just the critical parts? Let's keep the computation of natural numbers in Ruby
+and do the sieve operations in JavaScript:
+
+```bash
+$ graalvm/bin/graalvm ruby+js/sieve.rb ruby+js/sieve.js
+```
+
+A combination of languages is hard to compare, as there is no other system that
+could combine 100% language complete Ruby with 100% language complete JavaScript.
+There are some transpilers of Ruby to JavaScript, but they are far from complete
+and clearly they are obsolete - GraalVM can run the mixture of Ruby and JavaScript
+as fast as optimized JavaScript only version.
+
