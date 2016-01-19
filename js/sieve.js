@@ -1,48 +1,44 @@
 function Natural() {
-    x = 2;
-    return {
-        'next' : function() { return x++; }
-    };
+    this.x = 2;
+};
+Natural.prototype.next = function() {
+    return this.x++;
 };
 
 function Filter(number, filter) {
-    var self = this;
     this.number = number;
     this.filter = filter;
-    this.accept = function(n) {
-      var filter = self;
-      for (;;) {
-          if (n % filter.number === 0) {
-              return false;
-          }
-          filter = filter.filter;
-          if (filter === null) {
-              break;
-          }
-      }
-      return true;
-    };
-    return this;
 }
+Filter.prototype.accept = function(n) {
+  var filter = this;
+  for (;;) {
+      if (n % filter.number === 0) {
+          return false;
+      }
+      filter = filter.filter;
+      if (filter === null) {
+          break;
+      }
+  }
+  return true;
+};
 
 function Primes(natural) {
-    var self = this;
     this.natural = natural;
     this.filter = null;
-
-    this.next = function() {
-        for (;;) {
-            var n = self.natural.next();
-            if (self.filter === null || self.filter.accept(n)) {
-                self.filter = new Filter(n, self.filter);
-                return n;
-            }
-        }
-    };
 }
+Primes.prototype.next = function() {
+    for (;;) {
+        var n = this.natural.next();
+        if (this.filter === null || this.filter.accept(n)) {
+            this.filter = new Filter(n, this.filter);
+            return n;
+        }
+    }
+};
 
 function measure(prntCnt, upto) {
-    var primes = new Primes(Natural());
+    var primes = new Primes(new Natural());
 
     var log = typeof console !== 'undefined' ? console.log : print;
     var start = new Date().getTime();
