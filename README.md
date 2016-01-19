@@ -4,7 +4,7 @@ Implementing the sieve of Eratosthenes in various languages to demonstrate power
 
 # Ruby Speed
 
-Use following commands to find out that GraalVM Ruby is ten time faster than any other one. The program computes first few thousands of prime numbers using the [Sieve of Eratosthenes](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes) algorithm. It repeats the computation in an endless loop to simulate long running process and give GraalVM Ruby time to warm up and optimize.
+Use following commands to find out that GraalVM Ruby is ten times faster than any other one. The program computes first few thousands of prime numbers using the [Sieve of Eratosthenes](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes) algorithm. It repeats the computation in an endless loop to simulate long running process and give GraalVM Ruby time to warm up and optimize.
 
 ```bash
 $ ruby ruby/sieve.rb
