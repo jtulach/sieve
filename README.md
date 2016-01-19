@@ -40,3 +40,20 @@ There are some transpilers of Ruby to JavaScript, but they are far from complete
 and clearly they are obsolete - GraalVM can run the mixture of Ruby and JavaScript
 as fast as optimized JavaScript only version.
 
+# Can I add Java?
+
+Those coming from a JavaScript or Ruby camp, interested only in the scripting
+languages may stop reading now. The rest of us, who write or maintain application
+in Java maybe asking: Should I rewrite my Java app to get this kind of interop?
+
+No, there is no need! GraalVM is full featured Java VM compatible with the
+most recent release of Java (you need [Maven](http://maven.apache.org) to proceed),
+just try:
+
+```bash
+JAVA_HOME=graalvm mvn -f ruby+js/fromjava/pom.xml package exec:exec
+```
+
+Again, after few iterations the peak performance of the code is reached, but
+this time it is embedded into a Java program. You can get all the speed of
+Truffle from your Java applications, if you execute on top of GraalVM!
