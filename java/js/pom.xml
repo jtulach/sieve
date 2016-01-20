@@ -12,7 +12,7 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>bundle</packaging>
 
-  <name>sieve JavaScript Libraries</name>
+  <name>Sieve Implementation</name>
 
   <properties>
     <netbeans.compile.on.save>none</netbeans.compile.on.save>
@@ -54,18 +54,23 @@
               </configuration>
           </plugin>
           <plugin>
-              <groupId>org.apidesign.bck2brwsr</groupId>
-              <artifactId>bck2brwsr-maven-plugin</artifactId>
-              <version>0.16</version>
-              <executions>
-                  <execution>
-                      <goals>
-                          <goal>library</goal>
-                      </goals>
-                  </execution>
-              </executions>
+              <groupId>org.apache.maven.plugins</groupId>
+              <artifactId>maven-jar-plugin</artifactId>
+              <version>2.6</version>
               <configuration>
-                  <obfuscation>NONE</obfuscation>
+                  <archive>
+                      <manifest>
+                          <mainClass>org.apidesign.demo.sieve.js.Primes</mainClass>
+                      </manifest>
+                  </archive>
+              </configuration>
+          </plugin>
+          <plugin>
+              <groupId>org.codehaus.mojo</groupId>
+              <artifactId>exec-maven-plugin</artifactId>
+              <version>1.2.1</version>
+              <configuration>
+                  <mainClass>org.apidesign.demo.sieve.js.Primes</mainClass>
               </configuration>
           </plugin>
       </plugins>

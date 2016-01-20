@@ -36,4 +36,16 @@ public abstract class Primes {
         }
         return System.currentTimeMillis() - start;
     }
+
+    public static void main(String... args) {
+        for (;;) {
+            Primes p = new Primes() {
+                @Override
+                protected void log(String msg) {
+                    System.out.println(msg);
+                }
+            };
+            System.out.println("Five thousands primes computed in " + p.compute() + " ms");
+        }
+    }
 }
