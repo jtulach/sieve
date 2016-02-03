@@ -57,3 +57,18 @@ JAVA_HOME=graalvm mvn -f ruby+js/fromjava/pom.xml package exec:exec
 Again, after few iterations the peak performance of the code is reached, but
 this time it is embedded into a Java program. You can get all the speed of
 Truffle from your Java applications, if you execute on top of GraalVM!
+
+# Is R slower than Ruby?
+
+Now imagine you have even slower language than Ruby. Is it possible? Yes,
+it is. Language like [R](https://en.wikipedia.org/wiki/R_%28programming_language%29) is even slower and yet very popular
+(among statisticians). Nice thing is that it works primarily on vectors, so
+we can generate the list of natural numbers as a simple ***[2:999999999]***
+expression. Can Graal make that fast?
+
+```bash
+$ graalvm/bin/graalvm R+js/sieve.R R+js/sieve.js
+```
+
+JavaScript is accessing enormously huge vector from R (which is never really
+created) and the speed is? Great! Within 10-20% of the fastest solution we have seen so far.
