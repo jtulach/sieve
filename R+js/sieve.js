@@ -16,14 +16,15 @@ Filter.prototype.accept = function(n) {
   return true;
 };
 
+var tail = Interop.import('Tail');
 function Primes(natural) {
     this.natural = natural;
-    this.at = 0;
     this.filter = null;
 }
 Primes.prototype.next = function() {
     for (;;) {
-        var n = this.natural[this.at++];
+        var n = this.natural[0];
+        this.natural = Interop.execute(tail, this.natural);
         if (this.filter === null || this.filter.accept(n)) {
             this.filter = new Filter(n, this.filter);
             return n;
