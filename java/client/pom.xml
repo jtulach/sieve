@@ -180,7 +180,7 @@
     </dependency>
     <dependency>
         <groupId>org.apidesign.demo</groupId>
-        <artifactId>sieve-js</artifactId>
+        <artifactId>sieve-algorithm</artifactId>
         <version>${project.version}</version>
     </dependency>
     <dependency>
