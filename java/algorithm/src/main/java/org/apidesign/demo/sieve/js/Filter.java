@@ -1,7 +1,7 @@
 package org.apidesign.demo.sieve.js;
 
 final class Filter {
-    private final int number;
+    private final Integer number;
     private final Filter next;
 
     public Filter(int number, Filter next) {
