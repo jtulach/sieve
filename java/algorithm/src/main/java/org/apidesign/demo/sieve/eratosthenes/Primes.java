@@ -1,4 +1,4 @@
-package org.apidesign.demo.sieve.js;
+package org.apidesign.demo.sieve.eratosthenes;
 
 public abstract class Primes {
     private final Natural natural;

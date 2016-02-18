@@ -60,7 +60,7 @@
               <configuration>
                   <archive>
                       <manifest>
-                          <mainClass>org.apidesign.demo.sieve.js.Primes</mainClass>
+                          <mainClass>org.apidesign.demo.sieve.eratosthenes.Primes</mainClass>
                       </manifest>
                   </archive>
               </configuration>
@@ -70,7 +70,7 @@
               <artifactId>exec-maven-plugin</artifactId>
               <version>1.2.1</version>
               <configuration>
-                  <mainClass>org.apidesign.demo.sieve.js.Primes</mainClass>
+                  <mainClass>org.apidesign.demo.sieve.eratosthenes.Primes</mainClass>
               </configuration>
           </plugin>
       </plugins>

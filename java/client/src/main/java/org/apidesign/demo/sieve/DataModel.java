@@ -4,7 +4,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 import net.java.html.json.Model;
 import net.java.html.json.Property;
-import org.apidesign.demo.sieve.js.Primes;
+import org.apidesign.demo.sieve.eratosthenes.Primes;
 
 @Model(className = "Data", targetId="", properties = {
     @Property(name = "messages", type = String.class, array = true)

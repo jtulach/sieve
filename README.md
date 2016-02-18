@@ -72,3 +72,26 @@ $ graalvm/bin/graalvm R+js/sieve.R R+js/sieve.js
 
 JavaScript is accessing enormously huge vector from R (which is never really
 created) and the speed is? Great! Within 10-20% of the fastest solution we have seen so far.
+
+# Aren't These Scripting Languages Slower than Java?
+
+We have seen that with **Truffle** almost any language is almost as fast as the fastest
+implementation of *JavaScript*. But what about *Java*? Isn't it supposed to be
+faster? Yes, it is. Try:
+
+```bash
+$ mvn -f java/pom.xml install
+$ mvn -f java/algorithm/pom.xml exec:java
+```
+
+and you can see that *Java* is really fast. On my computer it takes something
+like 410ms to finish one iteration. However we can be even faster! How?
+Let's just switch to the **GraalVM** and use it instead of the regular one:
+
+```bash
+$ mvn -f java/pom.xml install
+$ JAVA_HOME=graalvm mvn -f java/algorithm/pom.xml exec:java
+```
+
+One iteration of the sieve of Eratosthenes algorithm now runs in less than
+400ms on my computer. **GraalVM** rules!
