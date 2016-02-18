@@ -83,41 +83,12 @@
                    <arguments>
                        <argument>-classpath</argument>
                        <classpath/>
-                       <argument>-javaagent:${project.build.directory}/springloaded.jar</argument>
-                       <argument>-noverify</argument>
                        <argument>-Dbrowser.rootdir=${basedir}/src/main/webapp/</argument>
                        <argument>-Dnetbeans.inspect.port=${netbeans.inspect.port}</argument>
                        <argument>${exec.debug.arg}</argument>
                        <argument>${project.mainclass}</argument>
                    </arguments>
                 </configuration>
-          </plugin>
-          <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-dependency-plugin</artifactId>
-              <version>2.10</version>
-              <executions>
-                  <execution>
-                      <id>copy</id>
-                      <phase>package</phase>
-                      <goals>
-                          <goal>copy</goal>
-                      </goals>
-                      <configuration>
-                          <artifactItems>
-                              <artifactItem>
-                                  <groupId>org.springframework</groupId>
-                                  <artifactId>springloaded</artifactId>
-                                  <version>1.2.3.RELEASE</version>
-                                  <type>jar</type>
-                                  <overWrite>false</overWrite>
-                                  <destFileName>springloaded.jar</destFileName>
-                              </artifactItem>
-                          </artifactItems>
-                          <outputDirectory>${project.build.directory}</outputDirectory>
-                      </configuration>
-                  </execution>
-              </executions>
           </plugin>
           <plugin>
               <artifactId>maven-assembly-plugin</artifactId>
