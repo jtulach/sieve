@@ -20,7 +20,7 @@ public abstract class Primes {
 
     protected abstract void log(String msg);
 
-    public final long compute() {
+    public final int compute() {
         long start = System.currentTimeMillis();
         int cnt = 0;
         int res;
@@ -34,7 +34,7 @@ public abstract class Primes {
                 break;
             }
         }
-        return System.currentTimeMillis() - start;
+        return res;
     }
 
     public static void main(String... args) {
@@ -45,7 +45,10 @@ public abstract class Primes {
                     System.out.println(msg);
                 }
             };
-            System.out.println("Five thousands primes computed in " + p.compute() + " ms");
+            long start = System.currentTimeMillis();
+            int value = p.compute();
+            long took = System.currentTimeMillis() - start;
+            System.out.println("Five thousands primes computed in " + took + " ms");
         }
     }
 }
