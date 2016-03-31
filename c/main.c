@@ -56,6 +56,10 @@ void initPrimes(PrimesType* self, NaturalType* natural) {
     self->filter = NULL;
 }
 
+void releasePrimes(PrimesType* self) {
+    releaseFilter(self->filter);
+}
+
 int nextPrime(PrimesType* self) {
     for (;;) {
         int n = nextNatural(self->natural);
@@ -93,6 +97,9 @@ long measure(int prntCnt, int upto) {
             break;
         }
     }
+
+    releasePrimes(&primes);
+
     return currentTimeMillis() - start;
 }
 
