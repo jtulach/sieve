@@ -26,8 +26,8 @@
                 <extensions>true</extensions>
                 <configuration>
                     <instructions>
-                        <Export-Package>org.apidesign.demo.sieve.js</Export-Package>
-                        <Bundle-SymbolicName>org.apidesign.demo.sieve.js</Bundle-SymbolicName>
+                        <Export-Package>org.apidesign.demo.sieve.eratosthenes</Export-Package>
+                        <Bundle-SymbolicName>org.apidesign.demo.sieve.algorithm</Bundle-SymbolicName>
                     </instructions>
                 </configuration>
             </plugin>
