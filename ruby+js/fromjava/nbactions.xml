@@ -10,7 +10,7 @@
                 <goal>exec:exec</goal>
             </goals>
             <properties>
-                <debug>-J:-Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address}</debug>
+                <debug>-Xrunjdwp:transport=dt_socket,server=n,address=${jpda.address}</debug>
                 <jpda.listen>true</jpda.listen>
             </properties>
         </action>

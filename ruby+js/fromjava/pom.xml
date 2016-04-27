@@ -26,9 +26,10 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.4.0</version>
                 <configuration>
-                    <executable>${java.home}/bin/graalvm</executable>
+                    <executable>${java.home}/bin/java</executable>
                     <arguments>
                         <arguments>${debug}</arguments>
+                        <argument>-polyglot</argument>
                         <argument>-cp</argument>
                         <classpath/>
                         <argument>org.apidesign.demo.rubyjs.fromjava.Main</argument>
