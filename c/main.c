@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <math.h>
 #include<time.h>
 
 typedef struct Natural {
@@ -16,34 +17,42 @@ int nextNatural(NaturalType* self) {
 
 typedef struct Filter {
     int number;
-    struct Filter *filter;
+    struct Filter *next;
+    struct Filter *last;
 } FilterType;
 
-FilterType* newFilter(int n, FilterType* filter) {
+FilterType* newFilter(int n) {
     FilterType* f = malloc(sizeof(FilterType));
     f->number = n;
-    f->filter = filter;
+    f->next = NULL;
+    f->last = f;
     return f;
 }
 
 void releaseFilter(FilterType* filter) {
     while (filter != NULL) {
-        FilterType* next = filter->filter;
+        FilterType* next = filter->next;
         free(filter);
         filter = next;
     }
 }
 
-int accept(FilterType* filter, int n) {
+int acceptAndAdd(FilterType* filter, int n) {
+    FilterType* first = filter;
+    int upto = (int)sqrt(n);
     for (;;) {
         if (n % filter->number == 0) {
             return 0;
         }
-        filter = filter->filter;
-        if (filter == NULL) {
-            return 1;
+        if (filter->number > upto) {
+            break;
         }
+        filter = filter->next;
     }
+    FilterType* f = newFilter(n);
+    first->last->next = f;
+    first->last = f;
+    return 1;
 }
 
 typedef struct Primes {
@@ -63,8 +72,11 @@ void releasePrimes(PrimesType* self) {
 int nextPrime(PrimesType* self) {
     for (;;) {
         int n = nextNatural(self->natural);
-        if (self->filter == NULL || accept(self->filter, n)) {
-            self->filter = newFilter(n, self->filter);
+        if (self->filter == NULL) {
+            self->filter = newFilter(n);
+            return n;
+        }
+        if (acceptAndAdd(self->filter, n)) {
             return n;
         }
     }
@@ -92,6 +104,7 @@ long measure(int prntCnt, int upto) {
         cnt++;
         if (cnt % prntCnt == 0) {
             printf("Computed %d primes in %ld ms. Last one is %d\n", cnt, (currentTimeMillis() - start), res);
+            prntCnt *= 2;
         }
         if (upto && cnt >= upto) {
             break;
@@ -105,7 +118,7 @@ long measure(int prntCnt, int upto) {
 
 int main(int argc, char** argv) {
     for (;;) {
-        printf("Five thousand prime numbers in %ld ms\n", measure(1000, 5000));
+        printf("Hundred thousand prime numbers in %ld ms\n", measure(97, 100000));
     }
     return (EXIT_SUCCESS);
 }

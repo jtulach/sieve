@@ -38,6 +38,11 @@
         <cTool>
           <standard>3</standard>
         </cTool>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerLibStdlibItem>Mathematics</linkerLibStdlibItem>
+          </linkerLibItems>
+        </linkerTool>
       </compileType>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
@@ -62,6 +67,11 @@
         <asmTool>
           <developmentMode>5</developmentMode>
         </asmTool>
+        <linkerTool>
+          <linkerLibItems>
+            <linkerLibStdlibItem>Mathematics</linkerLibStdlibItem>
+          </linkerLibItems>
+        </linkerTool>
       </compileType>
       <item path="main.c" ex="false" tool="0" flavor2="0">
       </item>
