@@ -1,10 +1,10 @@
 class Natural
   def initialize
-    @x = 2
+    @x = 1
   end
 
   def next
-    return @x += 1
+    @x += 1
   end
 end
 
