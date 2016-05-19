@@ -1,6 +1,6 @@
 class Natural
   def initialize
-    @x = 2
+    @x = 1
   end
 
   def next
@@ -9,21 +9,30 @@ class Natural
 end
 
 class Filter
-  attr_reader :number, :filter
+  attr_reader :number
+  attr_accessor :next
 
-  def initialize(number, filter)
+  def initialize(number)
     @number = number
-    @filter = filter
+    @next = nil
+    @last = self
   end
 
-  def accept(n)
+  def acceptAndAdd(n)
     filter = self
+    upto = Math.sqrt(n)
     while filter
       if n % filter.number == 0
         return false
       end
-      filter = filter.filter
+      if filter.number > upto
+        break
+      end
+      filter = filter.next
     end
+    filter = Filter.new(n)
+    @last.next = filter
+    @last = filter
     true
   end
 end
@@ -37,8 +46,11 @@ class Primes
   def next
     while true
       n = @natural.next
-      if @filter == nil || @filter.accept(n)
-        @filter = Filter.new(n, @filter)
+      if @filter == nil
+        @filter = Filter.new(n)
+        return n
+      end
+      if @filter.acceptAndAdd(n)
         return n
       end
     end
@@ -51,17 +63,19 @@ def fewthousands
 
   start = Time.now
   cnt = 0
+  prntCnt = 97
   begin
     res = primes.next
     cnt += 1
-    if cnt % 1000 == 0
+    if cnt % prntCnt == 0
       puts "Computed #{cnt} primes in #{Time.now - start} s. Last one is #{res}."
+      prntCnt = prntCnt * 2
     end
-  end while cnt < 5000
+  end while cnt < 100000
   Time.now - start
 end
 
 puts "Ready!"
 loop do
-  puts "Five thousand prime numbers in #{fewthousands} s"
+  puts "Hundred thousand prime numbers in #{fewthousands} s"
 end
