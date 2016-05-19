@@ -29,7 +29,7 @@ final class DataModel {
                     }
                 };
                 long took = p.compute();
-                ui.getMessages().add("Computing 5000 primes took " + took + " ms");
+                ui.getMessages().add("Computing hundred thousand primes took " + took + " ms");
                 t.schedule(new Schedule(), 1000);
             }
         }

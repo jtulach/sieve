@@ -11,8 +11,11 @@ public abstract class Primes {
     int next() {
         for (;;) {
             int n = natural.next();
-            if (filter == null || filter.accept(n)) {
-                filter = new Filter(n, filter);
+            if (filter == null) {
+                filter = new Filter(n);
+                return n;
+            }
+            if (filter.acceptAndAdd(n)) {
                 return n;
             }
         }
@@ -23,14 +26,16 @@ public abstract class Primes {
     public final int compute() {
         long start = System.currentTimeMillis();
         int cnt = 0;
+        int prntCnt = 97;
         int res;
         for (;;) {
             res = next();
             cnt += 1;
-            if (cnt % 1000 == 0) {
+            if (cnt % prntCnt == 0) {
                 log("Computed " + cnt + " primes in " + (System.currentTimeMillis() - start) + " ms. Last one is " + res);
+                prntCnt *= 2;
             }
-            if (cnt >= 5000) {
+            if (cnt >= 100000) {
                 break;
             }
         }
@@ -48,7 +53,8 @@ public abstract class Primes {
             long start = System.currentTimeMillis();
             int value = p.compute();
             long took = System.currentTimeMillis() - start;
-            System.out.println("Five thousands primes computed in " + took + " ms");
+            System.out.println("Hundred thousand primes computed in " + took + " ms");
+            if (true) System.exit(1);
         }
     }
 }

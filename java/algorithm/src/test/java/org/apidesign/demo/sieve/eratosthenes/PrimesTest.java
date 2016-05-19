@@ -12,6 +12,6 @@ public class PrimesTest {
             }
         };
         int last = p.compute();
-        assertEquals("5000th prime is", 48611, last);
+        assertEquals("100000th prime is", 1_299_709, last);
     }
 }
