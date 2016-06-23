@@ -28,7 +28,9 @@ final class DataModel {
                         ui.getMessages().add(msg);
                     }
                 };
-                long took = p.compute();
+                long start = System.currentTimeMillis();
+                int value = p.compute();
+                long took = System.currentTimeMillis() - start;
                 ui.getMessages().add("Computing hundred thousand primes took " + took + " ms");
                 t.schedule(new Schedule(), 1000);
             }
