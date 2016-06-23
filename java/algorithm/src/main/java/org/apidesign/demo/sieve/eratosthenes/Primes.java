@@ -54,7 +54,6 @@ public abstract class Primes {
             int value = p.compute();
             long took = System.currentTimeMillis() - start;
             System.out.println("Hundred thousand primes computed in " + took + " ms");
-            if (true) System.exit(1);
         }
     }
 }
