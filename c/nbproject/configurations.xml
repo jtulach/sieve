@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<configurationDescriptor version="97">
+<configurationDescriptor version="100">
   <logicalFolder name="root" displayName="root" projectFiles="true" kind="ROOT">
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
@@ -39,6 +39,7 @@
           <standard>3</standard>
         </cTool>
         <linkerTool>
+          <output>sieve-debug</output>
           <linkerLibItems>
             <linkerLibStdlibItem>Mathematics</linkerLibStdlibItem>
           </linkerLibItems>
@@ -68,6 +69,7 @@
           <developmentMode>5</developmentMode>
         </asmTool>
         <linkerTool>
+          <output>sieve</output>
           <linkerLibItems>
             <linkerLibStdlibItem>Mathematics</linkerLibStdlibItem>
           </linkerLibItems>

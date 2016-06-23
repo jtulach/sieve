@@ -9,4 +9,5 @@ buildNumber.properties
 .mvn/timing.properties
 /c/build/
 /c/dist/
+/c/sieve*
 /c/nbproject/private
