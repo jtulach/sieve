@@ -1,18 +1,23 @@
-function Filter(number, filter) {
+function Filter(number) {
     this.number = number;
-    this.filter = filter;
+    this.next = null;
+    this.last = this;
 }
-Filter.prototype.accept = function(n) {
+Filter.prototype.acceptAndAdd = function(n) {
   var filter = this;
+  var sqrt = Math.sqrt(n);
   for (;;) {
       if (n % filter.number === 0) {
           return false;
       }
-      filter = filter.filter;
-      if (filter === null) {
+      if (filter.number > sqrt) {
           break;
       }
+      filter = filter.next;
   }
+  var newFilter = new Filter(n);
+  this.last.next = newFilter;
+  this.last = newFilter;
   return true;
 };
 
@@ -24,8 +29,11 @@ function Primes(natural) {
 Primes.prototype.next = function() {
     for (;;) {
         var n = this.natural[this.at++];
-        if (this.filter === null || this.filter.accept(n)) {
-            this.filter = new Filter(n, this.filter);
+        if (this.filter === null) {
+            this.filter = new Filter(n);
+            return n;
+        }
+        if (this.filter.acceptAndAdd(n)) {
             return n;
         }
     }
@@ -34,7 +42,7 @@ Primes.prototype.next = function() {
 function measure(prntCnt, upto) {
     var natural = Interop.import('Natural');
     var primes = new Primes(Interop.execute(natural));
-    
+
     var log = typeof console !== 'undefined' ? console.log : print;
     var start = new Date().getTime();
     var cnt = 0;
@@ -44,6 +52,7 @@ function measure(prntCnt, upto) {
         cnt++;
         if (cnt % prntCnt === 0) {
             log("Computed " + cnt + " primes in " + (new Date().getTime() - start) + " ms. Last one is " + res);
+            prntCnt *= 2;
         }
         if (upto && cnt >= upto) {
             break;
@@ -54,5 +63,5 @@ function measure(prntCnt, upto) {
 
 for (;;) {
     var log = typeof console !== 'undefined' ? console.log : print;
-    log("Five thousand prime numbers in " + measure(1000, 5000) + " ms");
+    log("Hundred thousand prime numbers in " + measure(97, 100000) + " ms");
 }
