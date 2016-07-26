@@ -11,3 +11,6 @@ buildNumber.properties
 /c/dist/
 /c/sieve*
 /c/nbproject/private
+/js/fromjava/nbproject/private/
+/js/fromjava/dist/
+/js/fromjava/build/

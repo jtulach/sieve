@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <modelVersion>4.0.0</modelVersion>
+    <groupId>org.apidesign.demo</groupId>
+    <artifactId>trufflejs</artifactId>
+    <name>Using ScriptEngine for Truffle.js</name>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>jar</packaging>
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <polyglot>-Dignore</polyglot>
+    </properties>
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.4.0</version>
+                <configuration>
+                    <executable>${java.home}/bin/java</executable>
+                    <arguments>
+                        <arguments>${debug}</arguments>
+                        <argument>${polyglot}</argument>
+                        <argument>-cp</argument>
+                        <classpath/>
+                        <argument>org.apidesign.demo.trufflejs.Main</argument>
+                    </arguments>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <profiles>
+        <profile>
+            <id>GraalVM</id>
+            <activation>
+                <file>
+                    <exists>${java.home}/language/js/trufflejs.jar</exists>
+                </file>
+            </activation>
+            <properties>
+                <polyglot>-polyglot</polyglot>
+            </properties>
+        </profile>
+    </profiles>
+</project>

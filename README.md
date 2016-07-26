@@ -58,6 +58,29 @@ Again, after few iterations the peak performance of the code is reached, but
 this time it is embedded into a Java program. You can get all the speed of
 Truffle from your Java applications, if you execute on top of GraalVM!
 
+# Can I use Java Scripting API?
+
+Of course, it is fair to ask whether, in order to use
+[GraalVM](http://www.oracle.com/technetwork/oracle-labs/program-languages/overview/index.html)
+one has to learn the special [Truffle API](http://lafo.ssw.uni-linz.ac.at/javadoc/truffle/latest/)?
+
+If you are only interested in interop between Java and JavaScript, then you
+don't have to! You can use the standard `ScriptEngineManager` search for
+an engine named `Graal.js` and use it as you are used to. Here is an example:
+```bash
+mvn -f js/fromjava/pom.xml package exec:exec
+```
+The command can use regular HotSpot virtual machine and executes the `sieve.js`
+script via its integrated `JavaScript` engine. Btw. the JDK's Nashorn can
+compute the hundred thousand of prime numbers in 240ms on my computer.
+
+Now run the same script with GraalVM:
+```bash
+JAVA_HOME=graalvm mvn -f js/fromjava/pom.xml package exec:exec
+```
+The same Java code, the same JavaScript file - and the performance? Less than
+90ms on my computer!
+
 # Is R slower than Ruby?
 
 Now imagine you have even slower language than Ruby. Is it possible? Yes,
