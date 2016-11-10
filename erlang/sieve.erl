@@ -8,11 +8,24 @@ natural(#{ "n" := N }) ->
 
 filterAndAdd(N, []) ->
     { true, [ N ] };
+filterAndAdd(N, [ [H | T1 ] | T2]) ->
+    SortedPrimes = movePrimes([H | T1], [], T2),
+    filterAndAdd(N, SortedPrimes);
 filterAndAdd(N, [H | T]) when N rem H == 0 ->
     { false, [ H | T ] };
+filterAndAdd(N, [H | T]) when N < H * H ->
+    { true, [H | insertPrimes(N, T) ]};
 filterAndAdd(N, [H | T]) ->
     { R, L } = filterAndAdd(N, T),
     { R, [ H | L ]}.
+
+insertPrimes(N, []) -> [ N ];
+insertPrimes(N, [ [ H | T1] | T2 ]) -> [ [ N, H | T1 ] | T2 ];
+insertPrimes(N, [ H | T2 ]) -> [ [ N ], H | T2 ].
+
+movePrimes([], Reversed, []) -> Reversed;
+movePrimes(Primes, Reversed, [H | T]) -> [H | movePrimes(Primes, Reversed, T)];
+movePrimes([H | T], Reversed, []) -> movePrimes(T, [ H | Reversed ], []).
 
 sieve(Iterator, Primes) ->
     { N, Next } = natural(Iterator),
@@ -23,7 +36,13 @@ sieve(Iterator, Primes) ->
     end.
 
 hundredthousand() ->
-    hundredthousand(100000, natural(), []).
+    last(hundredthousand(100000, natural(), [])).
+
+last([ H ]) -> H;
+last([ [ H | T1 ] | T2 ]) ->
+    SortedPrimes = movePrimes([H | T1], [], T2),
+    last(SortedPrimes);
+last([ _ | T ]) -> last(T).
 
 hundredthousand(0, _, Primes) ->
     Primes;
