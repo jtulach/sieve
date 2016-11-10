@@ -1,5 +1,5 @@
 -module(sieve).
--export([hundredthousand/0,sieve/2,natural/0,natural/1,filterAndAdd/2]).
+-export([mainLoop/0]).
 
 natural() -> #{ "n" => 2 }.
 natural(#{ "n" := N }) ->
@@ -49,3 +49,10 @@ hundredthousand(0, _, Primes) ->
 hundredthousand(Count, Iterator, Primes) ->
     {NewPrimes, NewIterator} = sieve(Iterator, Primes),
     hundredthousand(Count - 1, NewIterator, NewPrimes).
+
+mainLoop() ->
+    Then = erlang:system_time(),
+    Result = hundredthousand(),
+    Now = erlang:system_time(),
+    io:fwrite("Computed ~w in ~w ms~n", [Result, round((Now - Then) / 1000000) ]),
+    mainLoop().
