@@ -24,8 +24,8 @@ public final class Main {
             local = local.getParentFile();
         }
 
-        Source ruby = Source.fromFileName(new File(local, "sieve.rb").getPath());
-        Source js = Source.fromFileName(new File(local, "sieve.js").getPath());
+        Source ruby = Source.newBuilder(new File(local, "sieve.rb")).build();
+        Source js = Source.newBuilder(new File(local, "sieve.js")).build();
 
         vm.eval(ruby);
         vm.eval(js);
