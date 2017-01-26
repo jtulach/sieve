@@ -24,18 +24,25 @@ local function naturals (init)
 end
 
 
---- Inserts the given `value` to the end of the linked `list`.
--- If the `list` is an empty table, then it initializes it.
-local function list_push (list, value)
+local LinkedList = {}
+LinkedList.__index = LinkedList
+
+--- Creates a new linked list.
+function LinkedList.new ()
+  return setmetatable({}, LinkedList)
+end
+
+--- Inserts the given `value` to the end of the list.
+function LinkedList:push (value)
   local node = { value = value }
 
-  if list.last then
-    list.last.next = node
+  if self.last then
+    self.last.next = node
   else
-    list.first = node
+    self.first = node
   end
 
-  list.last = node
+  self.last = node
 end
 
 local function list_iter_gen (list, node)
@@ -48,10 +55,11 @@ local function list_iter_gen (list, node)
   return node, node.value
 end
 
---- Returns an iterator for the given linked `list`.
-local function list_iter (list)
-  return list_iter_gen, list, nil
+--- Returns an iterator that iterates over nodes of the list.
+function LinkedList:iter ()
+  return list_iter_gen, self, nil
 end
+
 
 --- Returns true if the given `num` is a prime number.
 --
@@ -60,7 +68,7 @@ end
 local function is_prime (num, found_primes)
   local num_sqrt = sqrt(num)
 
-  for _, prime in list_iter(found_primes) do
+  for _, prime in found_primes:iter() do
     if num % prime == 0 then
       return false
     end
@@ -79,7 +87,7 @@ end
 local function find_primes_gen (found_primes, last_prime)
   for n in naturals(last_prime) do
     if last_prime == nil or is_prime(n, found_primes) then
-      list_push(found_primes, n)
+      found_primes:push(n)
       return n
     end
   end
@@ -87,7 +95,7 @@ end
 
 --- Returns an iterator that generates prime numbers.
 local function find_primes ()
-  return find_primes_gen, {}, nil
+  return find_primes_gen, LinkedList.new(), nil
 end
 
 
