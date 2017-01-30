@@ -18,6 +18,8 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
+        <debug>-Dignore</debug>
+        <polyglot>-Dignore</polyglot>
     </properties>
     <build>
         <plugins>
@@ -26,9 +28,10 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.4.0</version>
                 <configuration>
-                    <executable>${java.home}/bin/graalvm</executable>
+                    <executable>${graalvm}/bin/java</executable>
                     <arguments>
                         <arguments>${debug}</arguments>
+                        <argument>${polyglot}</argument>
                         <argument>-cp</argument>
                         <classpath/>
                         <argument>org.apidesign.demo.rjs.fromjava.Main</argument>
@@ -37,4 +40,40 @@
             </plugin>
         </plugins>
     </build>
+    <profiles>
+        <profile>
+            <id>graalvm-pre-0.20</id>
+            <activation>
+                <file>
+                    <exists>${java.home}/bin/graalvm</exists>
+                </file>
+            </activation>
+            <properties>
+                <graalvm>${java.home}</graalvm>
+                <polyglot>-polyglot</polyglot>
+            </properties>
+        </profile>
+        <profile>
+            <id>one-level-up</id>
+            <activation>
+                <file>
+                    <exists>${java.home}/../bin/graalvm</exists>
+                </file>
+            </activation>
+            <properties>
+                <graalvm>${java.home}/../</graalvm>
+            </properties>
+        </profile>
+        <profile>
+            <id>graalvm-0.20</id>
+            <activation>
+                <file>
+                    <exists>${java.home}/../../bin/graalvm</exists>
+                </file>
+            </activation>
+            <properties>
+                <graalvm>${java.home}/../../</graalvm>
+            </properties>
+        </profile>
+    </profiles>
 </project>
