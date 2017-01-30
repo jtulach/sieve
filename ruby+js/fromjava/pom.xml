@@ -10,7 +10,7 @@
         <dependency>
             <groupId>com.oracle.truffle</groupId>
             <artifactId>truffle-api</artifactId>
-            <version>0.10</version>
+            <version>0.22</version>
             <type>jar</type>
         </dependency>
     </dependencies>
