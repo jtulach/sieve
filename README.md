@@ -2,7 +2,7 @@
 
 Implementing the sieve of Eratosthenes in various languages to demonstrate power of GraalVM and Truffle. Please download [GraalVM](http://www.oracle.com/technetwork/oracle-labs/program-languages/overview/index.html) before proceeding with experiments. The [code in this repository](https://github.com/jtulach/sieve/) has been tested to work with [GraalVM](http://www.oracle.com/technetwork/oracle-labs/program-languages/overview/index.html) version 0.12.
 
-# Ruby Speed
+## Ruby Speed
 
 Use following commands to find out that GraalVM Ruby is ten times faster than any other one. The program computes first one hundred thousands of prime numbers using the [Sieve of Eratosthenes](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes) algorithm. It repeats the computation in an endless loop to simulate long running process and give **GraalVM Ruby** time to warm up and optimize.
 
@@ -13,7 +13,7 @@ $ graalvm/bin/ruby ruby/sieve.rb
 
 MRI Ruby starts fast and then gets slow. GraalVM has long initialization period, but once it is running, it is faster. After few iterations it gets about 10x faster than regular Ruby installed on my Ubuntu. Regular Ruby needs more than 2s to compute the primes. **GraalVM Ruby** at the end needs less than 150ms on my laptop.
 
-# JavaScript
+## JavaScript
 
 Of course, these days the most optimized dynamic language runtimes are for JavaScript, so shouldn't we rewrite our code to be faster? Yes, we can try that:
 
@@ -24,7 +24,7 @@ $ graalvm/bin/node js/sieve.js
 
 We can see that after few warm-up iterations both systems achieve similar peek performance. On my computer one iteration takes around 130ms. That is still faster than GraalVM Ruby, but only a bit (compared to more than 20x to MRI - the standard Ruby implementation). Whether that justifies rewriting whole application from one language to another depends on the actual need for speed. Moreover there are better options...
 
-# Spice Ruby with JavaScript
+## Spice Ruby with JavaScript
 
 Rather than rewriting whole application into a new language, why not rewrite
 just the critical parts? Let's keep the computation of natural numbers in Ruby
@@ -40,7 +40,7 @@ There are some transpilers of Ruby to JavaScript, but they are far from complete
 and clearly they are obsolete - **GraalVM** can run the mixture of **Ruby** and **JavaScript**
 as fast as optimized JavaScript only version.
 
-# Can I add Java?
+## Can I add Java?
 
 Those coming from a JavaScript or Ruby camp, interested only in the scripting
 languages may stop reading now. The rest of us, who write or maintain application
@@ -58,7 +58,7 @@ Again, after few iterations the peak performance of the code is reached, but
 this time it is embedded into a Java program. You can get all the speed of
 Truffle from your Java applications, if you execute on top of GraalVM!
 
-# Can I use Java Scripting API?
+## Can I use Java Scripting API?
 
 Of course, it is fair to ask whether, in order to use
 [GraalVM](http://www.oracle.com/technetwork/oracle-labs/program-languages/overview/index.html)
@@ -81,7 +81,7 @@ JAVA_HOME=graalvm mvn -f js/fromjava/pom.xml package exec:exec
 The same Java code, the same JavaScript file - and the performance? Less than
 90ms on my computer!
 
-# Is R slower than Ruby?
+## Is R slower than Ruby?
 
 Now imagine you have even slower language than Ruby. Is it possible? Yes,
 it is. Language like [R](https://en.wikipedia.org/wiki/R_%28programming_language%29) is even slower and yet very popular
@@ -96,7 +96,7 @@ $ graalvm/bin/graalvm R+js/sieve.R R+js/sieve.js
 JavaScript is accessing enormously huge vector from R (which is never really
 created) and the speed is? Great! Within 10-20% of the fastest solution we have seen so far.
 
-# Aren't These Scripting Languages Slower than Java?
+## Aren't These Scripting Languages Slower than Java?
 
 We have seen that with **Truffle** almost any language is almost as fast as the fastest
 implementation of *JavaScript*. But what about *Java*? Isn't it supposed to be
@@ -119,7 +119,7 @@ $ JAVA_HOME=graalvm mvn -f java/algorithm/pom.xml exec:java
 One iteration of the sieve of Eratosthenes algorithm now runs in less than
 90ms on my computer. **GraalVM** rules!
 
-# But Java cannot Run in a Browser!
+## But Java cannot Run in a Browser!
 
 That is not entirely true. The [HTML+Java API](http://bits.netbeans.org/html+java/) and related projects gives us an easy way to run Java in a browser. Try it:
 
@@ -138,5 +138,7 @@ $ mvn -f java/client-web/pom.xml bck2brwsr:show
 and now your *Java*(!) code runs in real browser. Visit [DukeScript](https://dukescript.com/) project to learn more about using Java in a browser.
 
 And the speed? Amazing, code written in *Java* and transpilled to *JavaScript* runs at most 50% slower than Java on classical JVM. 
+
+# Real Polyglot
 
 Learn to use [GraalVM](http://www.oracle.com/technetwork/oracle-labs/program-languages/overview/index.html) as then you become real polyglot: You'll be able to code in any dynamic language, mix them together and even use Java whenever you want.
