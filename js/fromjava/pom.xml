@@ -10,7 +10,7 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
-        <polyglot>-Dignore</polyglot>
+        <exec.java>${java.home}/bin/java</exec.java>
     </properties>
     <build>
         <plugins>
@@ -19,28 +19,41 @@
                 <artifactId>exec-maven-plugin</artifactId>
                 <version>1.4.0</version>
                 <configuration>
-                    <executable>${java.home}/bin/java</executable>
+                    <executable>${exec.java}</executable>
                     <arguments>
                         <arguments>${debug}</arguments>
                         <argument>${polyglot}</argument>
                         <argument>-cp</argument>
-                        <classpath/>
+                        <argument>${project.build.directory}/classes:${trufflejs.jar}</argument>
                         <argument>org.apidesign.demo.trufflejs.Main</argument>
                     </arguments>
+                    <classpathScope>system</classpathScope>
                 </configuration>
             </plugin>
         </plugins>
     </build>
     <profiles>
         <profile>
-            <id>GraalVM</id>
+            <id>GraalVM-pre-0.20</id>
             <activation>
                 <file>
                     <exists>${java.home}/language/js/trufflejs.jar</exists>
                 </file>
             </activation>
             <properties>
-                <polyglot>-polyglot</polyglot>
+                <trufflejs.jar>${java.home}/language/js/trufflejs.jar</trufflejs.jar>
+            </properties>
+        </profile>
+        <profile>
+            <id>GraalVM</id>
+            <activation>
+                <file>
+                    <exists>${java.home}/../../language/js/trufflejs.jar</exists>
+                </file>
+            </activation>
+            <properties>
+                <trufflejs.jar>${java.home}/../../language/js/trufflejs.jar</trufflejs.jar>
+                <exec.java>${java.home}/../../bin/java</exec.java>
             </properties>
         </profile>
     </profiles>
