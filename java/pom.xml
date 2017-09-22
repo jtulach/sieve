@@ -14,8 +14,8 @@
         <module>algorithm</module>
     </modules>
     <properties>
-        <net.java.html.version>1.2.3</net.java.html.version>
-        <bck2brwsr.version>0.16</bck2brwsr.version>
+        <net.java.html.version>1.4</net.java.html.version>
+        <bck2brwsr.version>0.21</bck2brwsr.version>
         <bck2brwsr.obfuscationlevel>FULL</bck2brwsr.obfuscationlevel>
         <jersey.version>2.13</jersey.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>

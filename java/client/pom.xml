@@ -160,6 +160,17 @@
         <version>${net.java.html.version}</version>
         <scope>provided</scope>
     </dependency>
+    <dependency>
+      <groupId>com.dukescript.api</groupId>
+      <artifactId>charts</artifactId>
+      <version>0.9</version>
+      <exclusions>
+          <exclusion>
+              <groupId>org.netbeans.html</groupId>
+              <artifactId>net.java.html.boot</artifactId>
+          </exclusion>
+      </exclusions>
+    </dependency>
   </dependencies>
   <profiles>
       <profile>

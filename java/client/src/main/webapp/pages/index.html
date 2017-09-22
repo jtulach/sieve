@@ -6,9 +6,14 @@
     </head>
     <body>
         <h1>Sieve of Eratosthenes</h1>
-        <ul data-bind="foreach: messages">
-            <li><span data-bind="text: $data"></span></li>
-        </ul>
+
+        <div>
+            <button data-bind="click: startStop, text: startOrStop"></button>
+            <span data-bind="text: message"></span>
+        </div>
+
+        <canvas id="chart"></canvas>
+
 <!-- ${browser.bootstrap} -->
     </body>
 </html>
