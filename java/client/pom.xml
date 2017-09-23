@@ -14,7 +14,7 @@
   <version>1.0-SNAPSHOT</version>
   <packaging>bundle</packaging>
 
-  <name>sieve General Client Code</name>
+  <name>Sieve of E. Java General Code</name>
 
   <properties>
     <netbeans.compile.on.save>all</netbeans.compile.on.save>
@@ -163,7 +163,7 @@
     <dependency>
       <groupId>com.dukescript.api</groupId>
       <artifactId>charts</artifactId>
-      <version>0.9</version>
+      <version>${charts.version}</version>
       <exclusions>
           <exclusion>
               <groupId>org.netbeans.html</groupId>

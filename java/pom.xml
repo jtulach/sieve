@@ -16,6 +16,8 @@
     <properties>
         <net.java.html.version>1.4</net.java.html.version>
         <bck2brwsr.version>0.21</bck2brwsr.version>
+        <junit.browser.version>1.0</junit.browser.version>
+        <charts.version>1.0</charts.version>
         <bck2brwsr.obfuscationlevel>FULL</bck2brwsr.obfuscationlevel>
         <jersey.version>2.13</jersey.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -27,6 +29,12 @@
                 <artifactId>testng</artifactId>
                 <scope>test</scope>
                 <version>6.8.8</version>
+            </dependency>
+            <dependency>
+                <groupId>com.dukescript.api</groupId>
+                <artifactId>junit-osgi</artifactId>
+                <scope>test</scope>
+                <version>4.12</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
@@ -46,6 +54,7 @@
                             <rules>
                                 <DependencyConvergence/>
                             </rules>
+                            <fail>false</fail>
                         </configuration>
                     </execution>
                 </executions>              
