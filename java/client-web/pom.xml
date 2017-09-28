@@ -19,12 +19,12 @@
     <properties>
         <netbeans.compile.on.save>none</netbeans.compile.on.save>
         <project.mainclass>org.apidesign.demo.sieve.BrowserMain</project.mainclass>
-        <teavm.version>0.4.0</teavm.version>
-        <teavm.debug>false</teavm.debug>
-        <browser.bootstrap>initialize TeaVM --&gt;
-&lt;script type="text/javascript" src="teavm.js"&gt;&lt;/script&gt;
+        <browser.bootstrap>initialize bck2brwsr --&gt;
+&lt;script type="text/javascript" src="bck2brwsr.js"&gt;&lt;/script&gt;
 &lt;script&gt;
-    main();
+    var vm = bck2brwsr('sieve.js');
+    var c = vm.loadClass('org.apidesign.demo.sieve.BrowserMain');
+    c.invoke('main');
 &lt;/script&gt;
 &lt;!-- end of initialization </browser.bootstrap>
     </properties>
@@ -50,6 +50,9 @@
                 <configuration>
                     <source>1.7</source>
                     <target>1.7</target>
+                    <compilerArguments>
+                        <bootclasspath>netbeans.ignore.jdk.bootclasspath</bootclasspath>
+                    </compilerArguments>
                 </configuration>
             </plugin>
             <plugin>
@@ -66,6 +69,47 @@
                         </manifest>
                     </archive>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apidesign.bck2brwsr</groupId>
+                <artifactId>bck2brwsr-maven-plugin</artifactId>
+                <version>${bck2brwsr.version}</version>
+                <executions>
+                    <execution>
+                        <goals>
+                            <goal>brwsr</goal>
+                            <goal>aot</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <obfuscation>${bck2brwsr.obfuscationlevel}</obfuscation>
+                    <directory>${project.build.directory}/${project.build.finalName}-bck2brwsr/public_html/</directory>
+                    <startpage>index.html</startpage>
+                    <classPathPrefix>lib</classPathPrefix>
+                    <mainJavaScript>${project.build.directory}/sieve.js</mainJavaScript>
+                    <exports>
+                        <export>${project.mainclass}</export>
+                    </exports>
+                </configuration>
+            </plugin>
+            <plugin>
+                <artifactId>maven-assembly-plugin</artifactId>
+                <version>2.4</version>
+                <executions>
+                    <execution>
+                        <id>distro-assembly</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>single</goal>
+                        </goals>
+                        <configuration>
+                            <descriptors>
+                                <descriptor>src/main/assembly/bck2brwsr.xml</descriptor>
+                            </descriptors>
+                        </configuration>
+                    </execution>
+                </executions>
             </plugin>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -86,89 +130,18 @@
                     <overWrite>true</overWrite>
                     <outputDirectory>target/web/pages</outputDirectory>
                     <includes>*/**</includes>
+                    <includeGroupIds>${project.groupId}</includeGroupIds>
                 </configuration>
             </plugin>
             <plugin>
-                <groupId>org.teavm</groupId>
-                <artifactId>teavm-maven-plugin</artifactId>
-                <version>${teavm.version}</version>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.teavm</groupId>
-                        <artifactId>teavm-classlib</artifactId>
-                        <version>${teavm.version}</version>
-                    </dependency>
-                    <!-- This module adds html4j support. It mainly includes JavaScriptBuilder support.
-                    Also there are some little patches to JCL emulation, that are required to pass TCK -->
-                    <dependency>
-                        <groupId>org.teavm</groupId>
-                        <artifactId>teavm-html4j</artifactId>
-                        <version>${teavm.version}</version>
-                    </dependency>
-                </dependencies>
-                <executions>
-                    <execution>
-                        <id>generate-teavm</id>
-                        <goals>
-                            <goal>compile</goal>
-                        </goals>
-                        <phase>process-classes</phase>
-                        <configuration>
-                            <mainClass>${project.mainclass}</mainClass>
-                            <debugInformationGenerated>${teavm.debug}</debugInformationGenerated>
-                            <sourceMapsGenerated>${teavm.debug}</sourceMapsGenerated>
-                            <sourceFilesCopied>${teavm.debug}</sourceFilesCopied>
-                            <!-- Whether we want TeaVM to minify (obfuscate) the generated JavaScript -->
-                            <minifying>false</minifying>
-                            <!-- Don't include main page - we created it by ourselves -->
-                            <mainPageIncluded>false</mainPageIncluded>
-                            <!-- Merge runtime.js instead of putting as a separate file -->
-                            <runtime>MERGED</runtime>
-                            <!-- Name of the generated file -->
-                            <targetFileName>teavm.js</targetFileName>
-                            <targetDirectory>${project.build.directory}/teavm</targetDirectory>
-                            <!-- This transformer adds null checks before virtual calls. It is not included
-                            by default as we don't always need these null checks
-                            <transformers>
-                                <param>org.teavm.javascript.NullPointerExceptionTransformer</param>
-                            </transformers>
-                            -->
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <artifactId>maven-assembly-plugin</artifactId>
-                <version>2.4</version>
-                <executions>
-                    <execution>
-                        <id>distro-assembly</id>
-                        <phase>package</phase>
-                        <goals>
-                            <goal>single</goal>
-                        </goals>
-                        <configuration>
-                            <descriptors>
-                                <descriptor>src/main/assembly/teavm.xml</descriptor>
-                            </descriptors>
-                        </configuration>
-                    </execution>
-                </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.apidesign.bck2brwsr</groupId>
-                <artifactId>bck2brwsr-maven-plugin</artifactId>
-                <version>${bck2brwsr.version}</version>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>brwsr</goal>
-                        </goals>
-                    </execution>
-                </executions>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>2.19.1</version>
                 <configuration>
-                    <directory>${project.build.directory}/${project.build.finalName}-teavm/public_html/</directory>
-                    <startpage>index.html</startpage>
+                    <junitArtifactName>com.dukescript.api:junit-osgi</junitArtifactName>
+                    <systemPropertyVariables>
+                        <fxpresenter.headless>false</fxpresenter.headless>
+                    </systemPropertyVariables>
                 </configuration>
             </plugin>
         </plugins>
@@ -186,6 +159,12 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>org.apidesign.bck2brwsr</groupId>
+            <artifactId>emul</artifactId>
+            <version>${bck2brwsr.version}</version>
+            <classifier>rt</classifier>
+        </dependency>
+        <dependency>
             <groupId>org.netbeans.html</groupId>
             <artifactId>net.java.html.boot</artifactId>
             <version>${net.java.html.version}</version>
@@ -197,9 +176,182 @@
             </exclusions>
         </dependency>
         <dependency>
+            <groupId>org.apidesign.bck2brwsr</groupId>
+            <artifactId>emul</artifactId>
+            <version>${bck2brwsr.version}</version>
+            <classifier>bck2brwsr</classifier>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apidesign.bck2brwsr</groupId>
+            <artifactId>ko-bck2brwsr</artifactId>
+            <version>${bck2brwsr.version}</version>
+            <classifier>bck2brwsr</classifier>
+            <scope>provided</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apidesign.demo</groupId>
+            <artifactId>sieve-js</artifactId>
+            <version>${project.version}</version>
+            <classifier>bck2brwsr</classifier>
+            <scope>provided</scope>
+            <type>jar</type>
+        </dependency>
+
+
+        <!-- browser JUnit runner -->
+        <dependency>
+            <groupId>com.dukescript.api</groupId>
+            <artifactId>junit-osgi</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>com.dukescript.api</groupId>
+            <artifactId>junit-browser-runner</artifactId>
+            <version>${junit.browser.version}</version>
+            <scope>test</scope>
+            <type>jar</type>
+        </dependency>
+
+        <!-- run in JavaFX WebView -->
+        <dependency>
             <groupId>org.netbeans.html</groupId>
-            <artifactId>ko4j</artifactId>
+            <artifactId>net.java.html.boot.fx</artifactId>
             <version>${net.java.html.version}</version>
+            <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.oracle</groupId>
+                    <artifactId>javafx</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <!-- run in pluginless browser -->
+        <dependency>
+            <groupId>org.apidesign.bck2brwsr</groupId>
+            <artifactId>launcher.http</artifactId>
+            <version>${bck2brwsr.version}</version>
+            <scope>test</scope>
+            <type>jar</type>
+        </dependency>
+        <dependency>
+            <groupId>com.dukescript.api</groupId>
+            <artifactId>junit-browser-runner</artifactId>
+            <version>${junit.browser.version}</version>
+            <scope>test</scope>
+            <classifier>bck2brwsr</classifier>
+            <type>jar</type>
         </dependency>
     </dependencies>
+    <profiles>
+        <profile>
+            <id>teavm</id>
+            <properties>
+                <teavm.version>0.4.0</teavm.version>
+                <teavm.debug>false</teavm.debug>
+                <browser.bootstrap>initialize TeaVM --&gt;
+&lt;script type="text/javascript" src="teavm.js"&gt;&lt;/script&gt;
+&lt;script&gt;
+    main();
+&lt;/script&gt;
+&lt;!-- end of initialization </browser.bootstrap>
+            </properties>
+            <dependencies>
+                <!-- needs special compile time dep otherwise TeaVM ignores the JAR -->
+                <dependency>
+                    <groupId>org.netbeans.html</groupId>
+                    <artifactId>ko4j</artifactId>
+                    <version>${net.java.html.version}</version>
+                </dependency>
+            </dependencies>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.teavm</groupId>
+                        <artifactId>teavm-maven-plugin</artifactId>
+                        <version>${teavm.version}</version>
+                        <dependencies>
+                            <dependency>
+                                <groupId>org.teavm</groupId>
+                                <artifactId>teavm-classlib</artifactId>
+                                <version>${teavm.version}</version>
+                            </dependency>
+                            <!-- This module adds html4j support. It mainly includes JavaScriptBuilder support.
+                            Also there are some little patches to JCL emulation, that are required to pass TCK -->
+                            <dependency>
+                                <groupId>org.teavm</groupId>
+                                <artifactId>teavm-html4j</artifactId>
+                                <version>${teavm.version}</version>
+                            </dependency>
+                        </dependencies>
+                        <executions>
+                            <execution>
+                                <id>generate-teavm</id>
+                                <goals>
+                                    <goal>compile</goal>
+                                </goals>
+                                <phase>process-classes</phase>
+                                <configuration>
+                                    <mainClass>${project.mainclass}</mainClass>
+                                    <debugInformationGenerated>${teavm.debug}</debugInformationGenerated>
+                                    <sourceMapsGenerated>${teavm.debug}</sourceMapsGenerated>
+                                    <sourceFilesCopied>${teavm.debug}</sourceFilesCopied>
+                                    <!-- Whether we want TeaVM to minify (obfuscate) the generated JavaScript -->
+                                    <minifying>false</minifying>
+                                    <!-- Don't include main page - we created it by ourselves -->
+                                    <mainPageIncluded>false</mainPageIncluded>
+                                    <!-- Merge runtime.js instead of putting as a separate file -->
+                                    <runtime>MERGED</runtime>
+                                    <!-- Name of the generated file -->
+                                    <targetFileName>teavm.js</targetFileName>
+                                    <targetDirectory>${project.build.directory}/teavm</targetDirectory>
+                                    <!-- This transformer adds null checks before virtual calls. It is not included
+                                    by default as we don't always need these null checks
+                                    <transformers>
+                                        <param>org.teavm.javascript.NullPointerExceptionTransformer</param>
+                                    </transformers>
+                                    -->
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <artifactId>maven-assembly-plugin</artifactId>
+                        <version>2.4</version>
+                        <executions>
+                            <execution>
+                                <id>distro-assembly</id>
+                                <phase>package</phase>
+                                <goals>
+                                    <goal>single</goal>
+                                </goals>
+                                <configuration>
+                                    <descriptors>
+                                        <descriptor>src/main/assembly/teavm.xml</descriptor>
+                                    </descriptors>
+                                </configuration>
+                            </execution>
+                        </executions>
+                    </plugin>
+                    <plugin>
+                        <groupId>org.apidesign.bck2brwsr</groupId>
+                        <artifactId>bck2brwsr-maven-plugin</artifactId>
+                        <version>${bck2brwsr.version}</version>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>brwsr</goal>
+                                </goals>
+                            </execution>
+                        </executions>
+                        <configuration>
+                            <directory>${project.build.directory}/${project.build.finalName}-teavm/public_html/</directory>
+                            <startpage>index.html</startpage>
+                        </configuration>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
