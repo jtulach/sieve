@@ -1,0 +1,32 @@
+<html>
+    <head>
+        <title>Sieve of Eratosthenes in JavaScript</title>
+    </head>
+<body>
+    <h1>Sieve of Eratosthenes in JavaScript</h1>
+
+    <textarea id="log" cols="80" rows="25"></textarea>
+    <p>
+    <button id="stop">Stop</button>
+    </p>
+
+    <script>
+        console.log = function(msg) {
+            if (msg.startsWith("Computed")) {
+                return;
+            }
+            var area = document.getElementById("log");
+            area.value = area.value + msg + "\n";
+        };
+
+        document.getElementById("stop").onclick = function() {
+            window.setTimeout = function() {};
+            document.getElementById("stop").disabled = true;
+        };
+    </script>
+    <script src="sieve.js">
+    </script>
+
+</body>
+</html>
+

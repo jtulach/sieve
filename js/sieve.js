@@ -66,7 +66,15 @@ function measure(prntCnt, upto) {
     return new Date().getTime() - start;
 }
 
-for (;;) {
-    var log = typeof console !== 'undefined' ? console.log : print;
-    log("Hundred thousand prime numbers in " + measure(97, 100000) + " ms");
+var log = typeof console !== 'undefined' ? console.log : print;
+if (typeof setTimeout === 'undefined') {
+    for (;;) {
+        log("Hundred thousand prime numbers in " + measure(97, 100000) + " ms");
+    }
+} else {
+    function oneRound() {
+        log("Hundred thousand prime numbers in " + measure(97, 100000) + " ms");
+        setTimeout(oneRound, 50);
+    }
+    setTimeout(oneRound, 50);
 }
