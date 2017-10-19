@@ -22,13 +22,14 @@ import org.apidesign.demo.sieve.eratosthenes.Primes;
 final class DataModel {
     private static Data ui;
 
-    private Chart<Values, Config> chart;
     private final Timer timer = new Timer("Compute primes");
+    private List<Values> data;
 
     @ModelOperation
     void initialize(Data model) {
-        chart = Chart.createLine(new Values.Set("a label", Color.valueOf("white"), Color.valueOf("black")));
-        chart.getData().add(new Values("0", 0));
+        Chart<Values, Config> chart = Chart.createLine(new Values.Set("a label", Color.valueOf("white"), Color.valueOf("black")));
+        data = chart.getData();
+        data.add(new Values("0", 0));
         chart.applyTo("chart");
         model.setStartOrStop("Start");
         model.applyBindings();
@@ -42,7 +43,7 @@ final class DataModel {
         } else {
             model.setStartOrStop("Stop");
             model.setRunning(true);
-            final List<Long> results = new ArrayList<>();
+            final List<Integer> results = new ArrayList<>();
             class Schedule extends TimerTask {
                 @Override
                 public void run() {
@@ -53,8 +54,8 @@ final class DataModel {
                     };
                     long start = System.currentTimeMillis();
                     int value = p.compute();
-                    long took = System.currentTimeMillis() - start;
-                    model.setMessage("Computing hundred thousand primes took " + took + " ms");
+                    int took = (int) (System.currentTimeMillis() - start);
+                    model.setMessage("Computing hundred thousand primes took " + took + " ms, last prime is " + value);
                     results.add(took);
                     if (model.isRunning()) {
                         timer.schedule(new Schedule(), 1000);
@@ -68,9 +69,9 @@ final class DataModel {
     }
 
     @ModelOperation
-    void addMeasurements(Data model, List<Long> times) {
-        for (Long time : times) {
-            chart.getData().add(new Values("#" + chart.getData().size(), time));
+    void addMeasurements(Data model, List<Integer> times) {
+        for (Integer time : times) {
+            data.add(new Values("#" + data.size(), time));
         }
     }
 

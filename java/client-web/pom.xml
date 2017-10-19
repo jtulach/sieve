@@ -248,7 +248,7 @@
         <profile>
             <id>teavm</id>
             <properties>
-                <teavm.version>0.4.0</teavm.version>
+                <teavm.version>0.5.1</teavm.version>
                 <teavm.debug>false</teavm.debug>
                 <browser.bootstrap>initialize TeaVM --&gt;
 &lt;script type="text/javascript" src="teavm.js"&gt;&lt;/script&gt;

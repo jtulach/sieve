@@ -31,17 +31,22 @@
         <actionName>CUSTOM-teavm-show</actionName>
         <displayName>Run in a Browser via TeaVM</displayName>
         <goals>
+            <goal>clean</goal>
             <goal>package</goal>
             <goal>bck2brwsr:show</goal>
         </goals>
         <properties>
             <skipTests>true</skipTests>
         </properties>
+        <activatedProfiles>
+            <activatedProfile>teavm</activatedProfile>
+        </activatedProfiles>
     </action>
     <action>
         <actionName>CUSTOM-teavm-show</actionName>
         <displayName>Debug in a Browser via TeaVM</displayName>
         <goals>
+            <goal>clean</goal>
             <goal>package</goal>
             <goal>bck2brwsr:show</goal>
         </goals>
@@ -49,6 +54,9 @@
             <skipTests>true</skipTests>
             <teavm.debug>true</teavm.debug>
         </properties>
+        <activatedProfiles>
+            <activatedProfile>teavm</activatedProfile>
+        </activatedProfiles>
     </action>
     <action>
         <actionName>CUSTOM-teavm-web</actionName>
@@ -57,5 +65,8 @@
             <goal>clean</goal>
             <goal>package</goal>
         </goals>
+        <activatedProfiles>
+            <activatedProfile>teavm</activatedProfile>
+        </activatedProfiles>
     </action>
 </actions>
