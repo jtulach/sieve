@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<actions>
+    <action>
+        <actionName>run</actionName>
+        <goals>
+            <goal>package</goal>
+            <goal>exec:java</goal>
+        </goals>
+        <properties>
+            <skipTests>true</skipTests>
+        </properties>
+    </action>
+    <action>
+        <actionName>run</actionName>
+        <goals>
+            <goal>package</goal>
+            <goal>exec:java</goal>
+        </goals>
+    </action>
+    <action>
+        <actionName>debug</actionName>
+        <goals>
+            <goal>process-classes</goal>
+            <goal>exec:java</goal>
+        </goals>
+        <properties>
+            <skipTests>true</skipTests>
+            <jpda.listen>maven</jpda.listen>
+        </properties>
+    </action>
+</actions>

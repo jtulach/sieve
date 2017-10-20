@@ -32,19 +32,6 @@
                 </configuration>
             </plugin>
           <plugin>
-              <groupId>org.netbeans.html</groupId>
-              <artifactId>html4j-maven-plugin</artifactId>
-              <version>${net.java.html.version}</version>
-              <executions>
-                  <execution>
-                      <id>js-classes</id>
-                      <goals>
-                          <goal>process-js-annotations</goal>
-                      </goals>
-                  </execution>
-              </executions>
-          </plugin>
-          <plugin>
               <groupId>org.apache.maven.plugins</groupId>
               <artifactId>maven-compiler-plugin</artifactId>
               <version>2.3.2</version>
@@ -77,21 +64,9 @@
   </build>
   <dependencies>
     <dependency>
-        <groupId>org.netbeans.html</groupId>
-        <artifactId>net.java.html.boot</artifactId>
-        <version>${net.java.html.version}</version>
-    </dependency>
-    <dependency>
       <groupId>org.testng</groupId>
       <artifactId>testng</artifactId>
       <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.netbeans.html</groupId>
-      <artifactId>net.java.html.boot.script</artifactId>
-      <version>${net.java.html.version}</version>
-      <scope>test</scope>
-      <type>jar</type>
     </dependency>
   </dependencies>
 </project>
