@@ -53,12 +53,12 @@ def measure(prntCnt, upto):
         res = primes.next()
         cnt = cnt + 1
         if (cnt % prntCnt == 0):
-            print("Computed {0} primes in {1} s. Last one is {2}".format(cnt, time.time() - start, res))
+            print("Computed " + str(cnt) + " primes in " + str(time.time() - start) + "s. Last one is " + str(res))
             prntCnt = prntCnt * 2
 
     return time.time() - start
 
 while True:
     took = measure(97, 100000)
-    print("Hundred thousand prime numbers in {0} s".format(took))
+    print("Hundred thousand prime numbers in " + str(took) + "s")
 
