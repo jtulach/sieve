@@ -48,7 +48,7 @@ Primes.prototype.next = function() {
 function measure(prntCnt, upto) {
     var primes = new Primes(new Natural());
 
-    var log = typeof console !== 'undefined' ? console.log : print;
+    var log = typeof console !== 'undefined' ? console.log : println;
     var start = new Date().getTime();
     var cnt = 0;
     var res = -1;
