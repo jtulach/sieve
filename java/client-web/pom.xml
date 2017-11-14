@@ -189,14 +189,6 @@
             <classifier>bck2brwsr</classifier>
             <scope>provided</scope>
         </dependency>
-        <dependency>
-            <groupId>org.apidesign.demo</groupId>
-            <artifactId>sieve-js</artifactId>
-            <version>${project.version}</version>
-            <classifier>bck2brwsr</classifier>
-            <scope>provided</scope>
-            <type>jar</type>
-        </dependency>
 
 
         <!-- browser JUnit runner -->
