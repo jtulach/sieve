@@ -16,6 +16,7 @@
 
   <properties>
     <netbeans.compile.on.save>none</netbeans.compile.on.save>
+    <mainClass>org.apidesign.demo.sieve.eratosthenes.Primes</mainClass>
   </properties>
   <build>
       <plugins>
@@ -55,9 +56,9 @@
           <plugin>
               <groupId>org.codehaus.mojo</groupId>
               <artifactId>exec-maven-plugin</artifactId>
-              <version>1.2.1</version>
-              <configuration>
-                  <mainClass>org.apidesign.demo.sieve.eratosthenes.Primes</mainClass>
+              <version>1.6.0</version>
+                  <configuration>
+                  <mainClass>${mainClass}</mainClass>
               </configuration>
           </plugin>
       </plugins>
@@ -69,4 +70,27 @@
       <scope>test</scope>
     </dependency>
   </dependencies>
+  <profiles>
+      <profile>
+          <id>svm</id>
+          <build>
+              <plugins>
+                  <plugin>
+                      <groupId>org.codehaus.mojo</groupId>
+                      <artifactId>exec-maven-plugin</artifactId>
+                      <version>1.6.0</version>
+                      <configuration>
+                          <executable>${java.home}/bin/native-image</executable>
+                          <arguments>
+                              <argument>-H:Name=target/sieve</argument>
+                              <argument>-classpath</argument>
+                              <classpath />
+                              <argument>${mainClass}</argument>
+                          </arguments>
+                      </configuration>
+                  </plugin>
+              </plugins>
+          </build>
+      </profile>
+  </profiles>
 </project>
