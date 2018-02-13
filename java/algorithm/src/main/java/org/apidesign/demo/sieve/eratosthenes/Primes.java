@@ -43,7 +43,8 @@ public abstract class Primes {
     }
 
     public static void main(String... args) {
-        for (;;) {
+        int upto = args.length == 0 ? Integer.MAX_VALUE : Integer.valueOf(args[0]);
+        while (upto-- > 0) {
             Primes p = new Primes() {
                 @Override
                 protected void log(String msg) {

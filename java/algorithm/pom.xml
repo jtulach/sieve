@@ -83,6 +83,12 @@
                           <executable>${java.home}/bin/native-image</executable>
                           <arguments>
                               <argument>-H:Name=target/sieve</argument>
+                              <!--
+                              <argument>-H:+ForAOTProfiling</argument>
+                              -->
+                              <!--
+                              <argument>-H:+UseAOTProfiles</argument>
+                              -->
                               <argument>-classpath</argument>
                               <classpath />
                               <argument>${mainClass}</argument>
