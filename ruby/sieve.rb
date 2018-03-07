@@ -57,6 +57,10 @@ class Primes
   end
 end
 
+def ms(start)
+  ((Time.now - start) * 1000).floor
+end
+
 def fewthousands
   natural = Natural.new
   primes = Primes.new(natural)
@@ -68,14 +72,14 @@ def fewthousands
     res = primes.next
     cnt += 1
     if cnt % prntCnt == 0
-      puts "Computed #{cnt} primes in #{Time.now - start} s. Last one is #{res}."
+      puts "Computed #{cnt} primes in #{ms(start)} ms. Last one is #{res}."
       prntCnt = prntCnt * 2
     end
   end while cnt < 100000
-  Time.now - start
+  ms(start)
 end
 
 puts "Ready!"
 loop do
-  puts "Hundred thousand prime numbers in #{fewthousands} s"
+  puts "Hundred thousand prime numbers in #{fewthousands} ms"
 end
