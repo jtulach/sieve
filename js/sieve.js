@@ -69,6 +69,10 @@ function measure(prntCnt, upto) {
 }
 
 var log = typeof console !== 'undefined' ? console.log : print;
+var count = 256 * 256
+if (process.argv.length === 3) {
+  count = new Number(process.argv[2])
+}
 if (typeof setTimeout === 'undefined') {
     for (;;) {
         log("Hundred thousand prime numbers in " + measure(97, 100000) + " ms");
@@ -76,7 +80,9 @@ if (typeof setTimeout === 'undefined') {
 } else {
     function oneRound() {
         log("Hundred thousand prime numbers in " + measure(97, 100000) + " ms");
-        setTimeout(oneRound, 50);
+        if (count-- > 0) {
+            setTimeout(oneRound, 50);
+        }
     }
     setTimeout(oneRound, 50);
 }

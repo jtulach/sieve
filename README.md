@@ -20,7 +20,10 @@ $ ruby ruby/sieve.rb
 $ graalvm/bin/ruby ruby/sieve.rb
 ```
 
-MRI Ruby starts fast and then gets slow. GraalVM has long initialization period, but once it is running, it is faster. After few iterations it gets about 10x faster than regular Ruby installed on my Ubuntu. Regular Ruby needs more than 2s to compute the primes. **GraalVM Ruby** at the end needs less than 150ms on my laptop.
+MRI Ruby starts fast and then gets slow. GraalVM has long initialization period,
+but once it is running, it is faster. After few iterations it gets about 10x faster
+than regular Ruby installed on my Ubuntu. Regular Ruby needs more than 2s to
+compute the primes. **GraalVM Ruby** at the end needs less than 150ms on my laptop.
 
 ## JavaScript
 
