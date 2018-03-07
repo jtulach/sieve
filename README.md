@@ -1,10 +1,19 @@
 # Sieves of Eratosthenes in Many Languages
 
-Implementing the sieve of Eratosthenes in various languages to demonstrate power of GraalVM and Truffle. Please download [GraalVM](http://www.oracle.com/technetwork/oracle-labs/program-languages/overview/index.html) before proceeding with experiments. The [code in this repository](https://github.com/jtulach/sieve/) has been tested to work with [GraalVM](http://www.oracle.com/technetwork/oracle-labs/program-languages/overview/index.html) version 0.12.
+Implementing the sieve of Eratosthenes in various languages to demonstrate
+power of GraalVM and Truffle. Please download
+[GraalVM](http://www.oracle.com/technetwork/oracle-labs/program-languages/overview/index.html)
+before proceeding with experiments. The [code in this repository](https://github.com/jtulach/sieve/)
+has been tested to work with [GraalVM](http://www.oracle.com/technetwork/oracle-labs/program-languages/overview/index.html)
+version 0.32.
 
 ## Ruby Speed
 
-Use following commands to find out that GraalVM Ruby is ten times faster than any other one. The program computes first one hundred thousands of prime numbers using the [Sieve of Eratosthenes](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes) algorithm. It repeats the computation in an endless loop to simulate long running process and give **GraalVM Ruby** time to warm up and optimize.
+Use following commands to find out that GraalVM Ruby is ten times faster than any other one.
+The program computes first one hundred thousands of prime numbers using the
+[Sieve of Eratosthenes](https://en.wikipedia.org/wiki/Sieve_of_Eratosthenes) algorithm.
+It repeats the computation in an endless loop to simulate long running process
+and give **GraalVM Ruby** time to warm up and optimize.
 
 ```bash
 $ ruby ruby/sieve.rb

@@ -80,6 +80,14 @@ def fewthousands
 end
 
 puts "Ready!"
-loop do
+
+count = -1
+if ARGV.length == 1
+then
+  count = ARGV[0].to_i
+end
+
+while count != 0
   puts "Hundred thousand prime numbers in #{fewthousands} ms"
+  count = count - 1
 end
