@@ -63,4 +63,10 @@ function measure(prntCnt, upto) {
 for (;;) {
     var log = typeof console !== 'undefined' ? console.log : print;
     log("Hundred thousand prime numbers in " + measure(97, 100000) + " ms");
+    if (typeof count !== 'undefined') {
+        if (--count) {
+            continue;
+        }
+        break;
+    }
 }

@@ -34,7 +34,12 @@ $ node js/sieve.js
 $ graalvm/bin/node js/sieve.js
 ```
 
-We can see that after few warm-up iterations both systems achieve similar peek performance. On my computer one iteration takes around 130ms. That is still faster than GraalVM Ruby, but only a bit (compared to more than 20x to MRI - the standard Ruby implementation). Whether that justifies rewriting whole application from one language to another depends on the actual need for speed. Moreover there are better options...
+We can see that after few warm-up iterations both systems achieve similar
+peek performance. On my computer one iteration takes around 130ms.
+That is still faster than GraalVM Ruby, but only a bit (compared to
+more than 20x to MRI - the standard Ruby implementation). Whether that justifies
+rewriting whole application from one language to another depends on the actual
+need for speed. Moreover there are better options...
 
 ## Spice Ruby with JavaScript
 
@@ -43,7 +48,7 @@ just the critical parts? Let's keep the computation of natural numbers in Ruby
 and do the sieve operations in JavaScript:
 
 ```bash
-$ graalvm/bin/graalvm ruby+js/sieve.rb ruby+js/sieve.js
+$ graalvm/bin/polyglot --file ruby+js/sieve.rb --file ruby+js/sieve.js
 ```
 
 A combination of languages is hard to compare, as there is no other system that
