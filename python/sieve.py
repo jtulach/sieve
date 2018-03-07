@@ -1,5 +1,6 @@
 import math
 import time
+import sys
 
 class Natural:
     n = 2
@@ -45,8 +46,8 @@ class Primes:
                 return n
 
 def ms(s):
-    ms = math.floor(s * 1000)
-    return str(ms / 1000)
+    ms = int(math.floor(s * 1000))
+    return str(ms)
 
 def measure(prntCnt, upto):
     primes = Primes(Natural())
@@ -58,12 +59,15 @@ def measure(prntCnt, upto):
         cnt = cnt + 1
         if (cnt % prntCnt == 0):
             took = time.time() - start
-            print("Computed " + str(cnt) + " primes in " + ms(took) + "s. Last one is " + str(res))
+            print("Computed " + str(cnt) + " primes in " + ms(took) + " ms. Last one is " + str(res))
             prntCnt = prntCnt * 2
 
     return time.time() - start
 
-while True:
+count = -1
+if len(sys.argv) > 1:
+    count = int(float(sys.argv[1]))
+while count != 0:
     took= measure(97, 100000)
-    print("Hundred thousand prime numbers in " + ms(took) + "s")
-
+    print("Hundred thousand prime numbers in " + ms(took) + " ms")
+    count = count - 1
