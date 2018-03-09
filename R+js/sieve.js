@@ -61,7 +61,13 @@ function measure(prntCnt, upto) {
     return new Date().getTime() - start;
 }
 
+var count;
 for (;;) {
+    if (typeof count !== 'undefined') {
+        if (!count--) {
+            break;
+        }
+    }
     var log = typeof console !== 'undefined' ? console.log : print;
     log("Hundred thousand prime numbers in " + measure(97, 100000) + " ms");
 }

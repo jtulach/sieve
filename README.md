@@ -107,7 +107,7 @@ we can generate the list of natural numbers as a simple ***[2:999999999]***
 expression. Can Graal make that fast?
 
 ```bash
-$ graalvm/bin/graalvm R+js/sieve.R R+js/sieve.js
+$ graalvm/bin/polyglot --jvm --file R+js/sieve.R --file R+js/sieve.js
 ```
 
 JavaScript is accessing enormously huge vector from R (which is never really

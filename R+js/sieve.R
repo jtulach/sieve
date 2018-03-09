@@ -1,4 +1,4 @@
 natural <- function() {
-  2:9999999999
+  2:99999999
 }
-.fastr.interop.export('Natural', natural)
+export('Natural', natural)

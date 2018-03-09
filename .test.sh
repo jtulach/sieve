@@ -9,6 +9,8 @@ fi
 
 GRAALBIN=$1/bin
 
+$GRAALBIN/polyglot --jvm --eval "js:count=25" --file R+js/sieve.R --file R+js/sieve.js
+
 JAVA_HOME=$1 mvn -q clean package exec:exec -f ruby+js/fromjava/pom.xml -Drepeat=25
 $GRAALBIN/ruby ruby/sieve.rb 25
 
