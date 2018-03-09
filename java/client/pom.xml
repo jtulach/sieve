@@ -21,6 +21,7 @@
     <project.mainclass>org.apidesign.demo.sieve.Main</project.mainclass>
     <exec.java.bin>${java.home}/bin/java</exec.java.bin>
     <exec.debug.arg>-Ddebug=false</exec.debug.arg>
+    <repeat>0</repeat>
   </properties>
   <build>
       <plugins>
@@ -87,6 +88,7 @@
                        <argument>-Dnetbeans.inspect.port=${netbeans.inspect.port}</argument>
                        <argument>${exec.debug.arg}</argument>
                        <argument>${project.mainclass}</argument>
+                       <argument>${repeat}</argument>
                    </arguments>
                 </configuration>
           </plugin>

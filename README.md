@@ -138,24 +138,32 @@ One iteration of the sieve of Eratosthenes algorithm now runs in less than
 
 ## But Java cannot Run in a Browser!
 
-That is not entirely true. The [HTML+Java API](http://bits.netbeans.org/html+java/) and related projects gives us an easy way to run Java in a browser. Try it:
+That is not entirely true. The Apache
+[HTML+Java API](http://bits.netbeans.org/html+java/) and
+related projects gives us an easy way to run Java in a browser. Try it:
 
 ```bash
 $ mvn -f java/pom.xml install
-$ mvn -f java/client/pom.xml exec:exec
+$ mvn -f java/client/pom.xml exec:exec -Drepeat=5
 ```
 
-The same algorithm written in Java is executed and the result is displayed in an opened browser window. Well, it is not really a browser, it is just an WebView component. But even that can be fixed! Try:
+The same algorithm written in Java is executed and the result is displayed in an opened browser window.
+Well, it is not really a browser, it is just an WebView component. But even that can be fixed! Try:
 
 ```bash
 $ mvn -f java/pom.xml install
 $ mvn -f java/client-web/pom.xml bck2brwsr:show
 ```
 
-and now your *Java*(!) code runs in real browser. Visit [DukeScript](https://dukescript.com/) project to learn more about using Java in a browser.
+and now your *Java*(!) code runs in real browser.
+Visit [DukeScript](https://dukescript.com/) project to learn more
+about using Java in a browser.
 
-And the speed? Amazing, code written in *Java* and transpilled to *JavaScript* runs at most 50% slower than Java on classical JVM. 
+And the speed? Amazing, code written in *Java* and transpilled to
+*JavaScript* runs at most 50% slower than Java on classical JVM. 
 
 # Real Polyglot
 
-Learn to use [GraalVM](http://www.oracle.com/technetwork/oracle-labs/program-languages/overview/index.html) as then you become real polyglot: You'll be able to code in any dynamic language, mix them together and even use Java whenever you want.
+Learn to use [GraalVM](http://www.oracle.com/technetwork/oracle-labs/program-languages/overview/index.html)
+as then you become real polyglot: You'll be able to code in any dynamic language,
+mix them together and even use Java whenever you want.

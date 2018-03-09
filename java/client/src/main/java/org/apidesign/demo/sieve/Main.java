@@ -15,11 +15,15 @@ public final class Main {
         System.exit(0);
     }
 
-    /**
-     * Called when the page is ready.
-     */
-    public static void onPageLoad() throws Exception {
-        DataModel.onPageLoad();
+    public static void onPageLoad(String... args) throws Exception {
+        Integer repeat = null;
+        if (args.length == 1) {
+            repeat = Integer.parseInt(args[0]);
+            if (repeat == 0) {
+                repeat = null;
+            }
+        }
+        DataModel.onPageLoad(repeat);
     }
 
 }

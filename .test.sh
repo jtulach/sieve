@@ -12,6 +12,7 @@ GRAALBIN=$1/bin
 mvn -q -f java/pom.xml clean install
 mvn -q -f java/algorithm/pom.xml exec:java -Drepeat=25
 JAVA_HOME=$1 mvn -q -f java/algorithm/pom.xml exec:java -Drepeat=25
+mvn -q -f java/client/pom.xml exec:exec -Drepeat=5
 
 $GRAALBIN/polyglot --jvm --eval "js:count=25" --file R+js/sieve.R --file R+js/sieve.js
 

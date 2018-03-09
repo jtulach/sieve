@@ -42,30 +42,53 @@ final class DataModel {
             model.setRunning(false);
         } else {
             model.setStartOrStop("Stop");
-            model.setRunning(true);
-            final List<Integer> results = new ArrayList<>();
-            class Schedule extends TimerTask {
-                @Override
-                public void run() {
-                    Primes p = new Primes() {
-                        @Override
-                        protected void log(String msg) {
-                        }
-                    };
-                    long start = System.currentTimeMillis();
-                    int value = p.compute();
-                    int took = (int) (System.currentTimeMillis() - start);
-                    model.setMessage("Computing hundred thousand primes took " + took + " ms, last prime is " + value);
-                    results.add(took);
-                    if (model.isRunning()) {
-                        timer.schedule(new Schedule(), 1000);
-                    } else {
-                        model.addMeasurements(results);
-                    }
-                }
-            }
-            timer.schedule(new Schedule(), 1);
+            model.runMeasurement(Integer.MAX_VALUE);
         }
+    }
+
+    @ModelOperation
+    void runMeasurement(final Data model, int cnt) {
+        model.setRunning(true);
+        final List<Integer> results = new ArrayList<>();
+        final int[] count = { cnt };
+        class Schedule extends TimerTask {
+            @Override
+            public void run() {
+                Primes p = new Primes() {
+                    @Override
+                    protected void log(String msg) {
+                    }
+                };
+                long start = System.currentTimeMillis();
+                int value = p.compute();
+                int took = (int) (System.currentTimeMillis() - start);
+                model.setMessage("Computing hundred thousand primes took " + took + " ms, last prime is " + value);
+                results.add(took);
+                if (model.isRunning() && count[0]-- > 0) {
+                    timer.schedule(new Schedule(), 1000);
+                } else {
+                    model.addMeasurements(results);
+                }
+                checkShutdown();
+            }
+
+            private boolean checkShutdown() {
+                if (count[0] == 0) {
+                    model.setMessage("Shutting down...");
+                    timer.schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            if (model.isRunning()) {
+                                System.exit(0);
+                            }
+                        }
+                    }, 10000);
+                    return true;
+                }
+                return false;
+            }
+        }
+        timer.schedule(new Schedule(), 1);
     }
 
     @ModelOperation
@@ -78,8 +101,11 @@ final class DataModel {
     /**
      * Called when the page is ready.
      */
-    static void onPageLoad() throws Exception {
+    static void onPageLoad(Integer repeat) throws Exception {
         ui = new Data();
         ui.initialize();
+        if (repeat != null) {
+            ui.runMeasurement(repeat);
+        }
     }
 }
