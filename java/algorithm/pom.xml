@@ -16,6 +16,7 @@
 
   <properties>
     <netbeans.compile.on.save>none</netbeans.compile.on.save>
+    <repeat>65535</repeat>
   </properties>
   <build>
       <plugins>
@@ -58,6 +59,9 @@
               <version>1.2.1</version>
               <configuration>
                   <mainClass>org.apidesign.demo.sieve.eratosthenes.Primes</mainClass>
+                  <arguments>
+                      <argument>${repeat}</argument>
+                  </arguments>
               </configuration>
           </plugin>
       </plugins>
