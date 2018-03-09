@@ -1,26 +1,59 @@
 package org.apidesign.demo.rubyjs.fromjava;
 
-import com.oracle.truffle.api.source.Source;
-import com.oracle.truffle.api.vm.PolyglotEngine;
 import java.io.File;
 import java.net.URISyntaxException;
 import java.net.URL;
+import org.graalvm.polyglot.Context;
+import org.graalvm.polyglot.Source;
 
 public final class Main {
+    private static void execute(Integer repeat) throws Exception {
+        Context vm = Context.newBuilder().build();
+
+        if (repeat != null) {
+            vm.eval("js", "count=" + repeat);
+        }
+
+        File scriptDir = findScriptDir();
+        Source ruby = Source.newBuilder("ruby", new File(scriptDir, "sieve.rb")).build();
+        Source js = Source.newBuilder("js", new File(scriptDir, "sieve.js")).build();
+
+        vm.eval(ruby);
+        vm.eval(js);
+    }
+
     private Main() {
     }
 
     public static void main(String[] args) throws Exception {
+        prologAndEpilog(true);
         System.err.println("Setting up PolyglotEngine");
-        PolyglotEngine vm = PolyglotEngine.newBuilder().
-            build();
+        try {
+            Integer count = null;
+            if (args.length == 1) {
+                count = Integer.parseInt(args[0]);
+            }
+            execute(count);
+        } catch (Throwable err) {
+            System.err.println("Initialization problem " + err.getClass().getName() + ": " + err.getMessage());
+            System.err.println("Are you running on GraalVM?");
+            System.err.println("Download from OTN: http://www.oracle.com/technetwork/oracle-labs/program-languages/overview/index.html");
+            prologAndEpilog(false);
+            System.exit(1);
+        }
+    }
 
-        File scriptDir = findScriptDir();
-        Source ruby = Source.newBuilder(new File(scriptDir, "sieve.rb")).build();
-        Source js = Source.newBuilder(new File(scriptDir, "sieve.js")).build();
-
-        vm.eval(ruby);
-        vm.eval(js);
+    private static void prologAndEpilog(boolean prolog) {
+        if (!prolog) {
+            System.err.println("*********************************");
+        }
+        System.err.println();
+        System.err.println();
+        System.err.println();
+        System.err.println();
+        if (prolog) {
+            System.err.println("*********************************");
+        }
     }
 
     private static File findScriptDir() throws URISyntaxException {

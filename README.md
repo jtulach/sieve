@@ -68,7 +68,7 @@ most recent release of Java (you need [Maven](http://maven.apache.org) to procee
 just try:
 
 ```bash
-JAVA_HOME=graalvm mvn -f ruby+js/fromjava/pom.xml package exec:exec
+JAVA_HOME=graalvm mvn -q clean package exec:exec -f ruby+js/fromjava/pom.xml
 ```
 
 Again, after few iterations the peak performance of the code is reached, but
@@ -79,7 +79,7 @@ Truffle from your Java applications, if you execute on top of GraalVM!
 
 Of course, it is fair to ask whether, in order to use
 [GraalVM](http://www.oracle.com/technetwork/oracle-labs/program-languages/overview/index.html)
-one has to learn the special [Truffle API](http://lafo.ssw.uni-linz.ac.at/javadoc/truffle/latest/)?
+one has to learn the special [Polyglot API](http://www.graalvm.org/truffle/javadoc/org/graalvm/polyglot/package-summary.html)?
 
 If you are only interested in interop between Java and JavaScript, then you
 don't have to! You can use the standard `ScriptEngineManager` search for
