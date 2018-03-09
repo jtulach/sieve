@@ -3,7 +3,7 @@
     <modelVersion>4.0.0</modelVersion>
     <groupId>org.apidesign.demo</groupId>
     <artifactId>trufflejs</artifactId>
-    <name>Using ScriptEngine for Truffle.js</name>
+    <name>Using ScriptEngine for Graal.js</name>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
     <properties>
@@ -11,6 +11,8 @@
         <maven.compiler.source>1.8</maven.compiler.source>
         <maven.compiler.target>1.8</maven.compiler.target>
         <exec.java>${java.home}/bin/java</exec.java>
+        <debug>-Dignore</debug>
+        <repeat>65535</repeat>
     </properties>
     <build>
         <plugins>
@@ -22,39 +24,13 @@
                     <executable>${exec.java}</executable>
                     <arguments>
                         <arguments>${debug}</arguments>
-                        <argument>${polyglot}</argument>
                         <argument>-cp</argument>
-                        <argument>${project.build.directory}/classes:${trufflejs.jar}</argument>
+                        <classpath/>
                         <argument>org.apidesign.demo.trufflejs.Main</argument>
+                        <argument>${repeat}</argument>
                     </arguments>
-                    <classpathScope>system</classpathScope>
                 </configuration>
             </plugin>
         </plugins>
     </build>
-    <profiles>
-        <profile>
-            <id>GraalVM-pre-0.20</id>
-            <activation>
-                <file>
-                    <exists>${java.home}/language/js/trufflejs.jar</exists>
-                </file>
-            </activation>
-            <properties>
-                <trufflejs.jar>${java.home}/language/js/trufflejs.jar</trufflejs.jar>
-            </properties>
-        </profile>
-        <profile>
-            <id>GraalVM</id>
-            <activation>
-                <file>
-                    <exists>${java.home}/../../language/js/trufflejs.jar</exists>
-                </file>
-            </activation>
-            <properties>
-                <trufflejs.jar>${java.home}/../../language/js/trufflejs.jar</trufflejs.jar>
-                <exec.java>${java.home}/../../bin/java</exec.java>
-            </properties>
-        </profile>
-    </profiles>
 </project>

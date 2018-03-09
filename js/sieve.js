@@ -69,20 +69,22 @@ function measure(prntCnt, upto) {
 }
 
 var log = typeof console !== 'undefined' ? console.log : print;
-var count = 256 * 256
-if (process.argv.length === 3) {
-  count = new Number(process.argv[2])
+if (typeof count === 'undefined') {
+    var count = 256 * 256;
+    if (typeof process !== 'undefined' && process.argv.length === 3) {
+      count = new Number(process.argv[2]);
+    }
 }
 if (typeof setTimeout === 'undefined') {
-    for (;;) {
-        log("Hundred thousand prime numbers in " + measure(97, 100000) + " ms");
-    }
-} else {
-    function oneRound() {
-        log("Hundred thousand prime numbers in " + measure(97, 100000) + " ms");
-        if (count-- > 0) {
-            setTimeout(oneRound, 50);
-        }
-    }
-    setTimeout(oneRound, 50);
+    setTimeout = function(r) {
+        r();
+    };
 }
+
+function oneRound() {
+    log("Hundred thousand prime numbers in " + measure(97, 100000) + " ms");
+    if (count-- > 0) {
+        setTimeout(oneRound, 50);
+    }
+}
+setTimeout(oneRound, 50);
