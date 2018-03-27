@@ -40,8 +40,8 @@ Primes.prototype.next = function() {
 };
 
 function measure(prntCnt, upto) {
-    var natural = Interop.import('Natural');
-    var primes = new Primes(Interop.execute(natural));
+    var natural = Polyglot.import('Natural');
+    var primes = new Primes(Polyglot.execute(natural));
 
     var log = typeof console !== 'undefined' ? console.log : print;
     var start = new Date().getTime();
