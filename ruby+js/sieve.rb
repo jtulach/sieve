@@ -12,4 +12,4 @@ def create
   Natural.new
 end
 
-Truffle::Interop.export("Natural", method(:create));
+Polyglot.export("Natural", method(:create));
