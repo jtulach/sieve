@@ -41,7 +41,7 @@ Primes.prototype.next = function() {
 
 function measure(prntCnt, upto) {
     var natural = Polyglot.import('Natural');
-    var primes = new Primes(Polyglot.execute(natural));
+    var primes = new Primes(natural());
 
     var log = typeof console !== 'undefined' ? console.log : print;
     var start = new Date().getTime();
