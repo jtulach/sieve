@@ -8,7 +8,8 @@ import org.graalvm.polyglot.Source;
 
 public final class Main {
     private static void execute(Integer repeat) throws Exception {
-        Context vm = Context.newBuilder().build();
+        // executing ruby currently requires all access flag to be set.
+        Context vm = Context.newBuilder().allowAllAccess(true).build();
 
         if (repeat != null) {
             vm.eval("js", "count=" + repeat);
