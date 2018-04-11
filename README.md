@@ -172,8 +172,8 @@ Indeed it is fast, but it is not really polyglot. Can we fix that?
 GraalVM offers a way to *interpret* the **C** code with a
 Truffle interpreter. Interpret **C**?
 Isn't that going to be slow? No, not really,
-if you use [Sulong](https://github.com/graalvm/sulong/)
-- an [LLVM](http://llvm.org/) interpreter that is part of GraalVM.
+if you use [Sulong](https://github.com/graalvm/sulong/) - an
+[LLVM](http://llvm.org/) interpreter that is part of GraalVM.
 
 
 Let's try to compare statically compiled C and Sulong speed:
