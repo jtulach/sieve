@@ -39,7 +39,7 @@
           <standard>3</standard>
         </cTool>
         <linkerTool>
-          <output>sieve-debug</output>
+          <output>sieve</output>
           <linkerLibItems>
             <linkerLibStdlibItem>Mathematics</linkerLibStdlibItem>
           </linkerLibItems>

@@ -160,7 +160,38 @@ Visit [DukeScript](https://dukescript.com/) project to learn more
 about using Java in a browser.
 
 And the speed? Amazing, code written in *Java* and transpilled to
-*JavaScript* runs at most 50% slower than Java on classical JVM. 
+*JavaScript* runs at most 50% slower than Java on classical JVM.
+
+## Nothing Compares to C!
+
+A friend of mine once asked: *"Nice, but if I write the code in C, then ..., right?"*
+That forced me to sit down and write a
+[C version of the sieve](c/main.c).
+Indeed it is fast, but it is not really polyglot. Can we fix that?
+
+GraalVM offers a way to *interpret* the **C** code with a
+Truffle interpreter. Interpret **C**?
+Isn't that going to be slow? No, not really,
+if you use [Sulong](https://github.com/graalvm/sulong/)
+- an [LLVM](http://llvm.org/) interpreter that is part of GraalVM.
+
+
+Let's try to compare statically compiled C and Sulong speed:
+```bash
+$ make -C c
+$ ./c/sieve
+Hundred thousand prime numbers in 103 ms
+```
+it starts fast and runs fast. Now it's the Sulong's turn! We need an LLVM bitcode.
+Get it from `clang` and then pass it to `lli` of GraalVM:
+```bash
+$ clang -c -emit-llvm -o c/sieve.bc c/main.c
+$ graalvm/bin/lli c/sieve.bc
+Hundred thousand prime numbers in 114 ms
+```
+The interpreted code isn't as fast as the native one, but it is not slow either.
+Moreover there is a huge benefit - it can be easily mixed with other languages
+without any slowdown common when crossing the language boundaries.
 
 # Real Polyglot
 

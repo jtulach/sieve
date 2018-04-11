@@ -56,10 +56,10 @@ LDLIBSOPTIONS=-Wl,-rpath,'.' -lm
 
 # Build Targets
 .build-conf: ${BUILD_SUBPROJECTS}
-	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk sieve-debug
+	"${MAKE}"  -f nbproject/Makefile-${CND_CONF}.mk sieve
 
-sieve-debug: ${OBJECTFILES}
-	${LINK.c} -o sieve-debug ${OBJECTFILES} ${LDLIBSOPTIONS}
+sieve: ${OBJECTFILES}
+	${LINK.c} -o sieve ${OBJECTFILES} ${LDLIBSOPTIONS}
 
 ${OBJECTDIR}/main.o: main.c 
 	${MKDIR} -p ${OBJECTDIR}

@@ -117,8 +117,17 @@ long measure(int prntCnt, int upto) {
 }
 
 int main(int argc, char** argv) {
+    int count = -1;
+    if (argc == 2) {
+        count = atoi(argv[1]);
+    }
     for (;;) {
         printf("Hundred thousand prime numbers in %ld ms\n", measure(97, 100000));
+        if (count != -1) {
+            if (--count == 0) {
+                break;
+            }
+        }
     }
     return (EXIT_SUCCESS);
 }

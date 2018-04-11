@@ -13,8 +13,8 @@ CND_BUILDDIR=build
 CND_DLIB_EXT=so
 NBTMPDIR=${CND_BUILDDIR}/${CND_CONF}/${CND_PLATFORM}/tmp-packaging
 TMPDIRNAME=tmp-packaging
-OUTPUT_PATH=sieve-debug
-OUTPUT_BASENAME=sieve-debug
+OUTPUT_PATH=sieve
+OUTPUT_BASENAME=sieve
 PACKAGE_TOP_DIR=c/
 
 # Functions
