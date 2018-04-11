@@ -39,7 +39,7 @@ Primes.prototype.next = function() {
 };
 
 function measure(prntCnt, upto) {
-    var natural = Interop.import('Natural');
+    var natural = Polyglot.import('Natural');
     var primes = new Primes(natural());
 
     var log = typeof console !== 'undefined' ? console.log : print;
