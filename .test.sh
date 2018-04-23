@@ -31,7 +31,7 @@ $GRAALBIN/node js/sieve.js 15
 mvn -q -f js/fromjava/pom.xml package exec:exec -Drepeat=15
 JAVA_HOME=$1 mvn -q -f js/fromjava/pom.xml package exec:exec -Drepeat=15
 
-$GRAALBIN/graalpython python/sieve.py 15
+$GRAALBIN/graalpython --jvm python/sieve.py 25
 
-$GRAALBIN/polyglot --file ruby+js/sieve.rb --eval js:count=15 --file ruby+js/sieve.js
+$GRAALBIN/polyglot --jvm --file ruby+js/sieve.rb --eval js:count=25 --file ruby+js/sieve.js
 
