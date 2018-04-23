@@ -10,6 +10,6 @@ before_script:
   - ./graalvm-1.0.0-rc1/bin/gu install -c org.graalvm.R
   - ./graalvm-1.0.0-rc1/bin/gu install -c org.graalvm.python
 script:
-  - ./.test.sh ./graalvm-1.0.0-rc1/
+  - ./.test.sh ./graalvm-1.0.0-rc1/ 2>&1 | grep -v ^Computed.*Last.*one
 os:
 - linux
