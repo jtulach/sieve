@@ -4,8 +4,8 @@ Implementing the sieve of Eratosthenes in various languages to demonstrate
 power of GraalVM and Truffle. Please download
 [GraalVM](http://www.oracle.com/technetwork/oracle-labs/program-languages/overview/index.html)
 before proceeding with experiments. The [code in this repository](https://github.com/jtulach/sieve/)
-has been tested to work with [GraalVM](http://www.oracle.com/technetwork/oracle-labs/program-languages/overview/index.html)
-version 0.33.
+has been tested to work with [GraalVM](http://graalvm.org)
+version `1.0.0-rc2`.
 
 ## Ruby Speed
 
