@@ -1,25 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <parent>
-      <groupId>org.apidesign.demo</groupId>
-      <artifactId>sieve-pom</artifactId>
-      <version>1.0-SNAPSHOT</version>
-  </parent>
+    <modelVersion>4.0.0</modelVersion>
+    <parent>
+        <groupId>org.apidesign.demo</groupId>
+        <artifactId>sieve-pom</artifactId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
 
-  <groupId>org.apidesign.demo</groupId>
-  <artifactId>sieve-algorithm</artifactId>
-  <version>1.0-SNAPSHOT</version>
-  <packaging>bundle</packaging>
+    <groupId>org.apidesign.demo</groupId>
+    <artifactId>sieve-algorithm</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>bundle</packaging>
 
-  <name>Sieve Implementation</name>
+    <name>Sieve Implementation</name>
 
-  <properties>
-    <netbeans.compile.on.save>none</netbeans.compile.on.save>
-    <repeat>65535</repeat>
-  </properties>
-  <build>
-      <plugins>
+    <properties>
+        <netbeans.compile.on.save>none</netbeans.compile.on.save>
+        <repeat>65535</repeat>
+        <mainClass>org.apidesign.demo.sieve.eratosthenes.Primes</mainClass>
+    </properties>
+    <build>
+        <plugins>
             <plugin>
                 <groupId>org.apache.felix</groupId>
                 <artifactId>maven-bundle-plugin</artifactId>
@@ -32,45 +33,82 @@
                     </instructions>
                 </configuration>
             </plugin>
-          <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-compiler-plugin</artifactId>
-              <version>2.3.2</version>
-              <configuration>
-                  <source>1.7</source>
-                  <target>1.7</target>
-              </configuration>
-          </plugin>
-          <plugin>
-              <groupId>org.apache.maven.plugins</groupId>
-              <artifactId>maven-jar-plugin</artifactId>
-              <version>2.6</version>
-              <configuration>
-                  <archive>
-                      <manifest>
-                          <mainClass>org.apidesign.demo.sieve.eratosthenes.Primes</mainClass>
-                      </manifest>
-                  </archive>
-              </configuration>
-          </plugin>
-          <plugin>
-              <groupId>org.codehaus.mojo</groupId>
-              <artifactId>exec-maven-plugin</artifactId>
-              <version>1.2.1</version>
-              <configuration>
-                  <mainClass>org.apidesign.demo.sieve.eratosthenes.Primes</mainClass>
-                  <arguments>
-                      <argument>${repeat}</argument>
-                  </arguments>
-              </configuration>
-          </plugin>
-      </plugins>
-  </build>
-  <dependencies>
-    <dependency>
-      <groupId>org.testng</groupId>
-      <artifactId>testng</artifactId>
-      <scope>test</scope>
-    </dependency>
-  </dependencies>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>2.3.2</version>
+                <configuration>
+                    <source>1.7</source>
+                    <target>1.7</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-jar-plugin</artifactId>
+                <version>2.6</version>
+                <configuration>
+                    <archive>
+                        <manifest>
+                            <mainClass>${mainClass}</mainClass>
+                        </manifest>
+                    </archive>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>exec-maven-plugin</artifactId>
+                <version>1.2.1</version>
+                <configuration>
+                    <mainClass>${mainClass}</mainClass>
+                    <arguments>
+                        <argument>${repeat}</argument>
+                    </arguments>
+                </configuration>
+            </plugin>
+        </plugins>
+    </build>
+    <dependencies>
+        <dependency>
+            <groupId>org.testng</groupId>
+            <artifactId>testng</artifactId>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+    <profiles>
+        <profile>
+            <id>svm</id>
+            <activation>
+                <property>
+                    <name>native.image</name>
+                </property>
+            </activation>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>org.codehaus.mojo</groupId>
+                        <artifactId>exec-maven-plugin</artifactId>
+                        <version>1.6.0</version>
+                        <configuration>
+                            <executable>${native.image}</executable>
+                            <arguments>
+                                <argument>${aot.profile}</argument>
+                                <argument>-H:Name=${basedir}/target/sieve</argument>
+                                <argument>-classpath</argument>
+                                <classpath />
+                                <argument>${mainClass}</argument>
+                            </arguments>
+                        </configuration>
+                        <executions>
+                            <execution>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <phase>package</phase>
+                            </execution>
+                        </executions>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 </project>
