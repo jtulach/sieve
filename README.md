@@ -208,13 +208,37 @@ allows us to compile the `java/algorithm` project into a self contained binary:
 $ JAVA_HOME=graalvm mvn -f java/algorithm -Psvm install
 /sieve/java/algorithm/target/sieve:8297]      [total]:  36,794.95 ms
 $ ls -lh java/algorithm/target/sieve
-5,6M java/algorithm/target/sieve
+6,5M java/algorithm/target/sieve
 $ java/algorithm/target/sieve
 Hundred thousand primes computed in 95 ms
 ```
-Not only one gets a self contained `sieve` executable of a reasonable (e.g. 5M)
+Not only one gets a self contained `sieve` executable of a reasonable (e.g. 7M)
 size, but it is also fast and most of all, it doesn't need any warm up. It
 is consistently fast since begining!
+
+## Going Docker!
+
+With a single self contained file created by `native-image` in previous
+section, it is easy to join the cloud life style. A simple docker file
+```docker
+FROM alpine:3.6
+COPY ./target/sieve /bin/sieve
+CMD /bin/sieve
+```
+will create small (10MB) docker image with your sieve application.
+The following commands do it on an Ubuntu Linux AMD64 box:
+```bash
+$ JAVA_HOME=graalvm mvn -f java/algorithm -Psvm install
+$ docker build java/algorithm/
+Step 1/3 : FROM alpine:3.6
+Step 2/3 : COPY ./target/sieve /bin/sieve
+Step 3/3 : CMD /bin/sieve
+Successfully built a06b45ee7d68
+$ docker run a06b45ee7d68
+$ docker ps
+$ docker kill d6ca88781a31
+```
+Your effective Java application has just gone to the cloud!
 
 # Real Polyglot
 

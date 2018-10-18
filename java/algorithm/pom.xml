@@ -94,6 +94,7 @@
                         <configuration>
                             <executable>${native.image}</executable>
                             <arguments>
+                                <argument>--static</argument>
                                 <argument>${aot.profile}</argument>
                                 <argument>-H:Name=${basedir}/target/sieve</argument>
                                 <argument>-classpath</argument>
