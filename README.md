@@ -193,6 +193,29 @@ The interpreted code isn't as fast as the native one, but it is not slow either.
 Moreover there is a huge benefit - it can be easily mixed with other languages
 without any slowdown common when crossing the language boundaries.
 
+## Go with a Single File!
+
+The are some good properties of the C solution. No need for virtual machine
+overhead being one of them. Ability to generate single `sieve` file that
+carries all the implementation being another. On the other hand, C isn't 
+really type safe language and also doesn't offer any automatic memory 
+management. Maybe we should try the Go language!? Or:
+
+Can we generate a single, virtual machine less, self-contained file
+with GraalVM? Yes, we can. There is a `native-image` command that
+allows us to compile the `java/algorithm` project into a self contained binary:
+```bash
+$ JAVA_HOME=graalvm mvn -f java/algorithm -Psvm install
+/sieve/java/algorithm/target/sieve:8297]      [total]:  36,794.95 ms
+$ ls -lh java/algorithm/target/sieve
+5,6M java/algorithm/target/sieve
+$ java/algorithm/target/sieve
+Hundred thousand primes computed in 95 ms
+```
+Not only one gets a self contained `sieve` executable of a reasonable (e.g. 5M)
+size, but it is also fast and most of all, it doesn't need any warm up. It
+is consistently fast since begining!
+
 # Real Polyglot
 
 Learn to use [GraalVM](http://www.oracle.com/technetwork/oracle-labs/program-languages/overview/index.html)

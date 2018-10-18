@@ -82,6 +82,9 @@
                     <name>native.image</name>
                 </property>
             </activation>
+            <properties>
+                <native.image>${java.home}/bin/native-image</native.image>
+            </properties>
             <build>
                 <plugins>
                     <plugin>
