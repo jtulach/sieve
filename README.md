@@ -4,8 +4,8 @@ Implementing the sieve of Eratosthenes in various languages to demonstrate
 power of GraalVM and Truffle. Please download
 [GraalVM](http://www.oracle.com/technetwork/oracle-labs/program-languages/overview/index.html)
 before proceeding with experiments. The [code in this repository](https://github.com/jtulach/sieve/)
-has been tested to work with [GraalVM](http://www.oracle.com/technetwork/oracle-labs/program-languages/overview/index.html)
-version 0.33.
+has been tested to work with [GraalVM](http://graalvm.org)
+version `1.0.0-rc2`.
 
 ## Ruby Speed
 
@@ -192,6 +192,53 @@ Hundred thousand prime numbers in 114 ms
 The interpreted code isn't as fast as the native one, but it is not slow either.
 Moreover there is a huge benefit - it can be easily mixed with other languages
 without any slowdown common when crossing the language boundaries.
+
+## Go with a Single File!
+
+The are some good properties of the C solution. No need for virtual machine
+overhead being one of them. Ability to generate single `sieve` file that
+carries all the implementation being another. On the other hand, C isn't 
+really type safe language and also doesn't offer any automatic memory 
+management. Maybe we should try the Go language!? Or:
+
+Can we generate a single, virtual machine less, self-contained file
+with GraalVM? Yes, we can. There is a `native-image` command that
+allows us to compile the `java/algorithm` project into a self contained binary:
+```bash
+$ JAVA_HOME=graalvm mvn -f java/algorithm -Psvm install
+/sieve/java/algorithm/target/sieve:8297]      [total]:  36,794.95 ms
+$ ls -lh java/algorithm/target/sieve
+6,5M java/algorithm/target/sieve
+$ java/algorithm/target/sieve
+Hundred thousand primes computed in 95 ms
+```
+Not only one gets a self contained `sieve` executable of a reasonable (e.g. 7M)
+size, but it is also fast and most of all, it doesn't need any warm up. It
+is consistently fast since begining!
+
+## Going Docker!
+
+With a single self contained file created by `native-image` in previous
+section, it is easy to join the cloud life style. A simple docker file
+```docker
+FROM alpine:3.6
+COPY ./target/sieve /bin/sieve
+CMD /bin/sieve
+```
+will create small (10MB) docker image with your sieve application.
+The following commands do it on an Ubuntu Linux AMD64 box:
+```bash
+$ JAVA_HOME=graalvm mvn -f java/algorithm -Psvm install
+$ docker build java/algorithm/
+Step 1/3 : FROM alpine:3.6
+Step 2/3 : COPY ./target/sieve /bin/sieve
+Step 3/3 : CMD /bin/sieve
+Successfully built a06b45ee7d68
+$ docker run a06b45ee7d68
+$ docker ps
+$ docker kill d6ca88781a31
+```
+Your effective Java application has just gone to the cloud!
 
 # Real Polyglot
 
