@@ -68,28 +68,14 @@ func measure(prntCnt int, upto int) int64 {
     primes := primes(natural());
 
     start := time.Now().UnixNano() / int64(time.Millisecond)
-    cnt := 0;
-    for {
-        res := primes.next();
-        cnt++;
-        if (cnt % prntCnt == 0) {
-            now := time.Now().UnixNano() / int64(time.Millisecond)
-            took := now - start
-            fmt.Printf("Computed %d primes in %d ms. Last one is %d\n", cnt, took, res)
-            prntCnt *= 2
-        }
-        if (cnt >= upto) {
-            break
-        }
-    }
+    res := primes.next()
+    fmt.Printf("First prime is %d\n", res)
     now := time.Now().UnixNano() / int64(time.Millisecond)
     return now - start
 }
 
 
 func main() {
-    for {
-      fmt.Printf("Hundred thousand prime numbers in %d ms\n", measure(97, 100000))
-    }
+    fmt.Printf("One prime number in %d ms\n", measure(97, 100000))
 }
 
