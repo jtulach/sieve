@@ -48,9 +48,6 @@ Primes.prototype.next = function() {
 function measure(prntCnt, upto) {
     var primes = new Primes(new Natural());
 
-    var log = typeof console !== 'undefined' ? console.log : (
-        typeof println !== 'undefined' ? println : print
-    );
     var start = new Date().getTime();
     var cnt = 0;
     var res = -1;
@@ -68,7 +65,9 @@ function measure(prntCnt, upto) {
     return new Date().getTime() - start;
 }
 
-var log = typeof console !== 'undefined' ? console.log : print;
+var log = typeof console !== 'undefined' ? console.log : (
+    typeof println !== 'undefined' ? println : print
+);
 if (typeof count === 'undefined') {
     var count = 256 * 256;
     if (typeof process !== 'undefined' && process.argv.length === 3) {
