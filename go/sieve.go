@@ -8,11 +8,11 @@ import (
   "time"
 )
 
-func natural() func() int {
-  i := 1
-  return func() int {
+func natural(numbers chan int) {
+  i := 2;
+  for {
+    numbers <- i
     i++
-    return i
   }
 }
 
@@ -40,37 +40,36 @@ func (this *Filter) acceptAndAdd(n int) bool {
   return true
 }
 
-type Primes struct {
-  natural func() int
-  filter *Filter
-}
-
-func primes(natural func() int) Primes {
-    return Primes{ natural, nil }
-}
-
-func (this *Primes) next() int {
+func primes(naturalNumbers chan int, primeNumbers chan int) {
+    var filter *Filter
+    filter = nil
     for {
-        n := this.natural();
-        if (this.filter == nil) {
-            this.filter = &Filter{ n, nil, nil }
-            this.filter.last = this.filter
-            return n;
+        n := <- naturalNumbers;
+        if (filter == nil) {
+            filter = &Filter{ n, nil, nil }
+            filter.last = filter
+            primeNumbers <- n;
         }
-        if (this.filter.acceptAndAdd(n)) {
-            return n;
+        if (filter.acceptAndAdd(n)) {
+            primeNumbers <- n;
         }
     }
 };
 
 
 func measure(prntCnt int, upto int) int64 {
-    primes := primes(natural());
+    naturalNumbers := make(chan int)
+
+    go natural(naturalNumbers)
+
+    primeNumbers := make(chan int)
+
+    go primes(naturalNumbers, primeNumbers)
 
     start := time.Now().UnixNano() / int64(time.Millisecond)
     cnt := 0;
     for {
-        res := primes.next();
+        res := <- primeNumbers;
         cnt++;
         if (cnt % prntCnt == 0) {
             now := time.Now().UnixNano() / int64(time.Millisecond)
