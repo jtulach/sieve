@@ -1,9 +1,9 @@
-function Natural() {
-    this.x = 2;
-};
-Natural.prototype.next = function() {
-    return this.x++;
-};
+function* natural() {
+    var x = 2;
+    while (true) {
+        yield x++;
+    }
+}
 
 function Filter(number) {
     this.number = number;
@@ -28,25 +28,21 @@ Filter.prototype.acceptAndAdd = function(n) {
   return true;
 };
 
-function Primes(natural) {
-    this.natural = natural;
-    this.filter = null;
-}
-Primes.prototype.next = function() {
-    for (;;) {
-        var n = this.natural.next();
-        if (this.filter === null) {
-            this.filter = new Filter(n);
-            return n;
+function* primesIterator(natural) {
+    var filter = null;
+    for (var n of natural) {
+        if (filter === null) {
+            filter = new Filter(n);
+            yield n;
         }
-        if (this.filter.acceptAndAdd(n)) {
-            return n;
+        if (filter.acceptAndAdd(n)) {
+            yield n;
         }
     }
 };
 
-function measure(prntCnt, upto) {
-    var primes = new Primes(new Natural());
+function measure(prntCnt, upto, log) {
+    var primes = primesIterator(natural());
 
     var start = new Date().getTime();
     var cnt = 0;
@@ -55,7 +51,7 @@ function measure(prntCnt, upto) {
         res = primes.next();
         cnt++;
         if (cnt % prntCnt === 0) {
-            log("Computed " + cnt + " primes in " + (new Date().getTime() - start) + " ms. Last one is " + res);
+            log("Computed " + cnt + " primes in " + (new Date().getTime() - start) + " ms. Last one is " + res.value);
             prntCnt *= 2;
         }
         if (upto && cnt >= upto) {
