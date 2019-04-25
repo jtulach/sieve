@@ -8,7 +8,7 @@ final class Filter(private val number: Int) {
         var filter: Filter? = this;
         val upto: Double = Math.sqrt(n.toDouble())
         while (filter != null) {
-            val reminder : Int = Math.floorMod(n, filter.number)
+            val reminder : Int = n % filter.number
             if (reminder == 0) {
                 return false;
             }
