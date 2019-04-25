@@ -14,8 +14,8 @@
         <module>algorithm</module>
     </modules>
     <properties>
-        <net.java.html.version>1.4</net.java.html.version>
-        <bck2brwsr.version>0.21</bck2brwsr.version>
+        <net.java.html.version>1.6</net.java.html.version>
+        <bck2brwsr.version>0.30</bck2brwsr.version>
         <junit.browser.version>1.0</junit.browser.version>
         <charts.version>1.0</charts.version>
         <bck2brwsr.obfuscationlevel>FULL</bck2brwsr.obfuscationlevel>
