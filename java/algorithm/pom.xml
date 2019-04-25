@@ -17,7 +17,8 @@
     <properties>
         <netbeans.compile.on.save>none</netbeans.compile.on.save>
         <repeat>65535</repeat>
-        <mainClass>org.apidesign.demo.sieve.eratosthenes.Primes</mainClass>
+        <mainClass>org.apidesign.demo.sieve.eratosthenes.PrimesKt</mainClass>
+        <kotlin.version>1.2.70</kotlin.version>
     </properties>
     <build>
         <plugins>
@@ -38,8 +39,34 @@
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>2.3.2</version>
                 <configuration>
+                    <skip>true</skip>
                     <source>1.7</source>
                     <target>1.7</target>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.jetbrains.kotlin</groupId>
+                <artifactId>kotlin-maven-plugin</artifactId>
+                <version>${kotlin.version}</version>
+                <executions>
+                    <execution>
+                        <id>compile</id>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>compile</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>test-compile</id>
+                        <phase>process-test-sources</phase>
+                        <goals>
+                            <goal>test-compile</goal>
+                        </goals>
+                    </execution>
+                </executions>
+                <configuration>
+                    <moduleName>sieve</moduleName>
+                    <jvmTarget>1.6</jvmTarget>
                 </configuration>
             </plugin>
             <plugin>
@@ -68,6 +95,12 @@
         </plugins>
     </build>
     <dependencies>
+        <dependency>
+            <groupId>org.jetbrains.kotlin</groupId>
+            <artifactId>kotlin-stdlib-jdk7</artifactId>
+            <version>${kotlin.version}</version>
+            <scope>compile</scope>
+        </dependency>
         <dependency>
             <groupId>org.testng</groupId>
             <artifactId>testng</artifactId>

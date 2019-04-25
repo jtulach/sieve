@@ -1,9 +1,7 @@
 package org.apidesign.demo.sieve.eratosthenes;
 
 final class Natural {
-    private int cnt = 2;
+    private var cnt = 2;
 
-    int next() {
-        return cnt++;
-    }
+    fun next() = cnt++;
 }
