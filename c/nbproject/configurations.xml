@@ -4,6 +4,9 @@
     <logicalFolder name="HeaderFiles"
                    displayName="Header Files"
                    projectFiles="true">
+      <itemPath>filter.h</itemPath>
+      <itemPath>natural.h</itemPath>
+      <itemPath>primes.h</itemPath>
     </logicalFolder>
     <logicalFolder name="ResourceFiles"
                    displayName="Resource Files"
@@ -12,7 +15,10 @@
     <logicalFolder name="SourceFiles"
                    displayName="Source Files"
                    projectFiles="true">
+      <itemPath>filter.c</itemPath>
       <itemPath>main.c</itemPath>
+      <itemPath>natural.c</itemPath>
+      <itemPath>primes.c</itemPath>
     </logicalFolder>
     <logicalFolder name="TestFiles"
                    displayName="Test Files"
@@ -45,7 +51,19 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="filter.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="filter.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="natural.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="natural.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="primes.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="primes.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
     <conf name="Release" type="1">
@@ -75,7 +93,19 @@
           </linkerLibItems>
         </linkerTool>
       </compileType>
+      <item path="filter.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="filter.h" ex="false" tool="3" flavor2="0">
+      </item>
       <item path="main.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="natural.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="natural.h" ex="false" tool="3" flavor2="0">
+      </item>
+      <item path="primes.c" ex="false" tool="0" flavor2="0">
+      </item>
+      <item path="primes.h" ex="false" tool="3" flavor2="0">
       </item>
     </conf>
   </confs>
