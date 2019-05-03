@@ -50,9 +50,12 @@ ginstall python
 
 $GRAALBIN/graalpython python/sieve.py 15
 
+$GRAALBIN/polyglot --jvm --file ruby+js/sieve.rb --eval js:count=15 --file ruby+js/sieve.js
+
 if [ -n "$REBUILD" ]; then
   $GRAALBIN/gu rebuild-images polyglot
 fi
 
-$GRAALBIN/polyglot --file ruby+js/sieve.rb --eval js:count=15 --file ruby+js/sieve.js
-
+if $GRAALBIN/polyglot --version:graalvm | grep -i Ruby; then
+  $GRAALBIN/polyglot --file ruby+js/sieve.rb --eval js:count=15 --file ruby+js/sieve.js
+fi

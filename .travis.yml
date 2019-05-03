@@ -13,6 +13,7 @@ before_script:
   - ./graalvm-*1.0.0-rc*/bin/gu install -c org.graalvm.R
   - ./graalvm-*1.0.0-rc*/bin/gu install -c org.graalvm.python
 script:
+  - set -eo pipefail
   - ./.test.sh ./graalvm-*1.0.0-rc*/ 2>&1 | grep -v ^Computed.*Last.*one
 os:
 - linux
