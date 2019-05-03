@@ -23,8 +23,8 @@ function ginstall() {
 make -C c
 ./c/sieve 25
 
-clang -c -emit-llvm -o c/sieve.bc c/main.c
-$GRAALBIN/lli c/sieve.bc 25
+(cd c; clang -c -emit-llvm *.c)
+$GRAALBIN/lli --lib c/natural.bc --lib c/filter.bc --lib c/primes.bc c/main.bc 25
 
 mvn -q -f java/pom.xml clean install
 mvn -q -f java/algorithm/pom.xml exec:java -Drepeat=25

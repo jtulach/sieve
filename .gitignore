@@ -10,8 +10,10 @@ buildNumber.properties
 /c/build/
 /c/dist/
 /c/sieve*
+/c/*.bc
 /c/nbproject/private
 /go/sieve
 /js/fromjava/nbproject/private/
 /js/fromjava/dist/
 /js/fromjava/build/
+go/go

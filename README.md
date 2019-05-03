@@ -7,6 +7,8 @@ before proceeding with experiments. The [code in this repository](https://github
 has been tested to work with [GraalVM](http://graalvm.org)
 version `1.0.0-rc2`.
 
+[![Build Status](https://travis-ci.org/jtulach/sieve.svg?branch=master)](https://travis-ci.org/jtulach/sieve)
+
 ## Ruby Speed
 
 Use following commands to find out that GraalVM Ruby is ten times faster than any other one.
