@@ -62,6 +62,7 @@ echo -en 'travis_fold:end:python\\r'
 echo -en 'travis_fold:start:polyglot\\r'
 $GRAALBIN/polyglot --jvm --file ruby+js/sieve.rb --eval js:count=15 --file ruby+js/sieve.js
 if [ -n "$REBUILD" ]; then
+  ginstall native-image
   $GRAALBIN/gu rebuild-images polyglot
 fi
 if $GRAALBIN/polyglot --version:graalvm | grep -i Ruby; then
