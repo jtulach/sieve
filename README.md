@@ -187,8 +187,9 @@ Hundred thousand prime numbers in 103 ms
 it starts fast and runs fast. Now it's the Sulong's turn! We need an LLVM bitcode.
 Get it from `clang` and then pass it to `lli` of GraalVM:
 ```bash
-$ clang -c -emit-llvm -o c/sieve.bc c/main.c
-$ graalvm/bin/lli c/sieve.bc
+$ cd c
+sieve/c$ clang -c -emit-llvm *.c
+sieve/c$ graalvm/bin/lli --lib natural.bc --lib filter.bc --lib primes.bc main.bc
 Hundred thousand prime numbers in 114 ms
 ```
 The interpreted code isn't as fast as the native one, but it is not slow either.
