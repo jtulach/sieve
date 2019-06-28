@@ -75,8 +75,16 @@ if (typeof count === 'undefined') {
     }
 }
 if (typeof setTimeout === 'undefined') {
+    var pending = [];
     setTimeout = function(r) {
-        r();
+        var process = pending.length === 0;
+        pending.push(r);
+        if (process) {
+            while (pending.length > 0) {
+                pending[0]();
+                pending.shift();
+            }
+        }
     };
 }
 
