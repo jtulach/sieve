@@ -17,3 +17,5 @@ buildNumber.properties
 /js/fromjava/dist/
 /js/fromjava/build/
 go/go
+nb-configuration.xml
+
