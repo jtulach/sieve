@@ -7,14 +7,14 @@ before_script:
   - export DISPLAY=:99.0
   - mkdir -p download
   - cd download
-  - wget https://github.com/oracle/graal/releases/download/vm-1.0.0-rc16/graalvm-ce-1.0.0-rc16-linux-amd64.tar.gz
+  - wget https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-19.3.1/graalvm-ce-java8-linux-amd64-19.3.1.tar.gz
   - cd ..
-  - tar fxvz download/graalvm-ce-1.0.0-*-linux-amd64.tar.gz
-  - ./graalvm-*1.0.0-rc*/bin/gu install -c org.graalvm.ruby
-  - ./graalvm-*1.0.0-rc*/bin/gu install -c org.graalvm.R
-  - ./graalvm-*1.0.0-rc*/bin/gu install -c org.graalvm.python
+  - tar fxvz download/graalvm-ce-java8-linux-amd64-19.3.1.tar.gz
+  - ./graalvm-ce-*/bin/gu install -c org.graalvm.ruby
+  - ./graalvm-ce-*/bin/gu install -c org.graalvm.R
+  - ./graalvm-ce-*/bin/gu install -c org.graalvm.python
 script:
   - set -eo pipefail
-  - ./.test.sh ./graalvm-*1.0.0-rc*/ 2>&1 | grep -v ^Computed.*Last.*one
+  - ./.test.sh ./graalvm-ce-*/ 2>&1 | grep -v ^Computed.*Last.*one
 os:
 - linux

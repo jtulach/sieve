@@ -5,7 +5,7 @@ power of GraalVM and Truffle. Please download
 [GraalVM](http://www.oracle.com/technetwork/oracle-labs/program-languages/overview/index.html)
 before proceeding with experiments. The [code in this repository](https://github.com/jtulach/sieve/)
 has been tested to work with [GraalVM](http://graalvm.org)
-version `1.0.0-rc16`.
+version `19.3.1`.
 
 [![Build Status](https://travis-ci.org/jtulach/sieve.svg?branch=master)](https://travis-ci.org/jtulach/sieve)
 
