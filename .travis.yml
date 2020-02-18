@@ -1,9 +1,10 @@
 language: java
 sudo: false
-
+dist: xenial
+services:
+  - xvfb
 before_script:
   - export DISPLAY=:99.0
-  - sh -e /etc/init.d/xvfb start || echo Without Xvfb
   - mkdir -p download
   - cd download
   - wget https://github.com/oracle/graal/releases/download/vm-1.0.0-rc16/graalvm-ce-1.0.0-rc16-linux-amd64.tar.gz
