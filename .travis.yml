@@ -4,6 +4,7 @@ dist: xenial
 services:
   - xvfb
 before_script:
+  - sudo apt-get -y install libgfortran3
   - export DISPLAY=:99.0
   - mkdir -p download
   - cd download
