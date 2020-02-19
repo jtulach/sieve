@@ -8,9 +8,9 @@ before_script:
   - export DISPLAY=:99.0
   - mkdir -p download
   - cd download
-  - wget https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-19.3.1/graalvm-ce-java8-linux-amd64-19.3.1.tar.gz
+  - wget $URL
   - cd ..
-  - tar fxvz download/graalvm-ce-java8-linux-amd64-19.3.1.tar.gz
+  - tar fxvz download/graalvm-ce-*.tar.gz
   - ./graalvm-ce-*/bin/gu install -c org.graalvm.ruby
   - ./graalvm-ce-*/bin/gu install -c org.graalvm.R
   - ./graalvm-ce-*/bin/gu install -c org.graalvm.python
@@ -18,4 +18,12 @@ script:
   - set -eo pipefail
   - ./.test.sh ./graalvm-ce-*/ 2>&1 | grep -v ^Computed.*Last.*one
 os:
-- linux
+  - linux
+matrix:
+  include:
+    - name: GraalVM 19.3.1
+      env:
+        - URL=https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-19.3.1/graalvm-ce-java8-linux-amd64-19.3.1.tar.gz
+    - name: GraalVM 20.0.0
+      env:
+        - URL=https://github.com/graalvm/graalvm-ce-builds/releases/download/vm-20.0.0/graalvm-ce-java8-linux-amd64-20.0.0.tar.gz
