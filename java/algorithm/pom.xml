@@ -76,7 +76,7 @@
     </dependencies>
     <profiles>
         <profile>
-            <id>svm</id>
+            <id>native-image</id>
             <activation>
                 <property>
                     <name>native.image</name>

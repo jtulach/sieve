@@ -208,7 +208,7 @@ Can we generate a single, virtual machine less, self-contained file
 with GraalVM? Yes, we can. There is a `native-image` command that
 allows us to compile the `java/algorithm` project into a self contained binary:
 ```bash
-$ JAVA_HOME=graalvm mvn -f java/algorithm -Psvm install
+$ JAVA_HOME=graalvm mvn -f java/algorithm -Pnative-image install
 /sieve/java/algorithm/target/sieve:8297]      [total]:  36,794.95 ms
 $ ls -lh java/algorithm/target/sieve
 6,5M java/algorithm/target/sieve
@@ -231,7 +231,7 @@ CMD /bin/sieve
 will create small (10MB) docker image with your sieve application.
 The following commands do it on an Ubuntu Linux AMD64 box:
 ```bash
-$ JAVA_HOME=graalvm mvn -f java/algorithm -Psvm install
+$ JAVA_HOME=graalvm mvn -f java/algorithm -Pnative-image install
 $ docker build java/algorithm/
 Step 1/3 : FROM alpine:3.6
 Step 2/3 : COPY ./target/sieve /bin/sieve
