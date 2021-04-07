@@ -94,6 +94,8 @@
                         <configuration>
                             <executable>${native.image}</executable>
                             <arguments>
+                                <argument>-g</argument>
+                                <argument>-O0</argument>
                                 <argument>--static</argument>
                                 <argument>${aot.profile}</argument>
                                 <argument>-H:Name=sieve</argument>
