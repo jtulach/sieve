@@ -96,7 +96,8 @@
                             <arguments>
                                 <argument>--static</argument>
                                 <argument>${aot.profile}</argument>
-                                <argument>-H:Name=${basedir}/target/sieve</argument>
+                                <argument>-H:Name=sieve</argument>
+                                <argument>-H:Path=${basedir}/target</argument>
                                 <argument>-classpath</argument>
                                 <classpath />
                                 <argument>${mainClass}</argument>
