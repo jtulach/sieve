@@ -28,4 +28,23 @@
             <jpda.listen>maven</jpda.listen>
         </properties>
     </action>
+    <profiles>
+        <profile>
+            <id>native-image</id>
+            <actions>
+                <action>
+                    <actionName>run</actionName>
+                    <displayName>Run Native Executable</displayName>
+                    <goals>
+                        <goal>exec:exec@run</goal>
+                    </goals>
+                    <properties>
+                    </properties>
+                    <activatedProfiles>
+                        <activatedProfile>native-image</activatedProfile>
+                    </activatedProfiles>
+                </action>
+            </actions>
+        </profile>
+    </profiles>
 </actions>

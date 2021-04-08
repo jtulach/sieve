@@ -91,26 +91,36 @@
                         <groupId>org.codehaus.mojo</groupId>
                         <artifactId>exec-maven-plugin</artifactId>
                         <version>1.6.0</version>
-                        <configuration>
-                            <executable>${native.image}</executable>
-                            <arguments>
-                                <argument>-g</argument>
-                                <argument>-O0</argument>
-                                <argument>--static</argument>
-                                <argument>${aot.profile}</argument>
-                                <argument>-H:Name=sieve</argument>
-                                <argument>-H:Path=${basedir}/target</argument>
-                                <argument>-classpath</argument>
-                                <classpath />
-                                <argument>${mainClass}</argument>
-                            </arguments>
-                        </configuration>
                         <executions>
                             <execution>
+                                <id>compile</id>
                                 <goals>
                                     <goal>exec</goal>
                                 </goals>
                                 <phase>package</phase>
+                                <configuration>
+                                    <executable>${native.image}</executable>
+                                    <arguments>
+                                        <argument>-g</argument>
+                                        <argument>-O0</argument>
+                                        <argument>--static</argument>
+                                        <argument>${aot.profile}</argument>
+                                        <argument>-H:Name=sieve</argument>
+                                        <argument>-H:Path=${project.build.directory}</argument>
+                                        <argument>-classpath</argument>
+                                        <classpath />
+                                        <argument>${mainClass}</argument>
+                                    </arguments>
+                                </configuration>
+                            </execution>
+                            <execution>
+                                <id>run</id>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>${project.build.directory}/sieve</executable>
+                                </configuration>
                             </execution>
                         </executions>
                     </plugin>
