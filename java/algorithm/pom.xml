@@ -122,6 +122,18 @@
                                     <executable>${project.build.directory}/sieve</executable>
                                 </configuration>
                             </execution>
+                            <execution>
+                                <id>debug</id>
+                                <goals>
+                                    <goal>exec</goal>
+                                </goals>
+                                <configuration>
+                                    <executable>gdb</executable>
+                                    <commandlineArgs>
+                                        --interpreter=mi ${project.build.directory}/sieve
+                                    </commandlineArgs>
+                                </configuration>
+                            </execution>
                         </executions>
                     </plugin>
                 </plugins>
