@@ -107,6 +107,8 @@
                                         <argument>${aot.profile}</argument>
                                         <argument>-H:Name=sieve</argument>
                                         <argument>-H:Path=${project.build.directory}</argument>
+                                        <argument>-H:DashboardDump=${project.build.directory}/sieve</argument>
+                                        <argument>-H:+DashboardAll</argument>
                                         <argument>-classpath</argument>
                                         <classpath />
                                         <argument>${mainClass}</argument>
