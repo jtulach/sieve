@@ -1,6 +1,28 @@
 package org.apidesign.demo.sieve.eratosthenes;
 
 public abstract class Primes {
+    private static final Primes INITIAL;
+    static {
+        class BuildTimePrimes extends Primes {
+            @Override
+            protected void log(String msg) {
+            }
+        }
+        Primes p = new BuildTimePrimes();
+        int last = ensureEnoughPrimes(40000, p);
+        INITIAL = p;
+        System.err.println("Prime numbers up to " + last + " are ready");
+    }
+
+    private static int ensureEnoughPrimes(double min, Primes p) {
+        int last = 0;
+        while (min > last) {
+            last = p.next();
+            System.err.println("  found next prime " + last);
+        }
+        return last;
+    }
+
     private final Natural natural;
     private Filter filter;
 
@@ -43,21 +65,14 @@ public abstract class Primes {
     }
 
     public static void main(String... args) {
-        int cnt = Integer.MAX_VALUE;
-        if (args.length == 1) {
-            cnt = Integer.parseInt(args[0]);
-        }
-        while (cnt-- > 0) {
-            Primes p = new Primes() {
-                @Override
-                protected void log(String msg) {
-                    System.out.println(msg);
-                }
-            };
-            long start = System.currentTimeMillis();
-            int value = p.compute();
-            long took = System.currentTimeMillis() - start;
-            System.out.println("Hundred thousand primes computed in " + took + " ms");
+        int cnt = Integer.parseInt(args[0]);
+        double maxTest = Math.sqrt(cnt);
+        ensureEnoughPrimes(maxTest, INITIAL);
+
+        if (INITIAL.filter.acceptAndAdd(cnt)) {
+            System.out.println(cnt + " is prime");
+        } else {
+            System.out.println(cnt + " is not prime");
         }
     }
 }

@@ -107,6 +107,7 @@
                                         <argument>${aot.profile}</argument>
                                         <argument>-H:Name=sieve</argument>
                                         <argument>-H:Path=${project.build.directory}</argument>
+                                        <argument>--initialize-at-build-time=org.apidesign.demo.sieve.eratosthenes.Primes</argument>
                                         <argument>-H:DashboardDump=${project.build.directory}/sieve</argument>
                                         <argument>-H:+DashboardAll</argument>
                                         <argument>-classpath</argument>
