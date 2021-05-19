@@ -49,6 +49,9 @@ $GRAALBIN/ruby ruby/sieve.rb 25
 echo -en 'travis_fold:end:ruby\\r'
 
 echo -en 'travis_fold:start:js\\r'
+if ! [ -f $GRAALBIN/node ]; then
+    ginstall nodejs
+fi
 $GRAALBIN/node js/sieve.js 15
 mvn -q -f js/fromjava/pom.xml package exec:exec -Drepeat=15
 JAVA_HOME=$1 mvn -q -f js/fromjava/pom.xml package exec:exec -Drepeat=15
