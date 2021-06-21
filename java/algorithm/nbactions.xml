@@ -44,6 +44,18 @@
                         <activatedProfile>native-image</activatedProfile>
                     </activatedProfiles>
                 </action>
+                <action>
+                    <actionName>debug</actionName>
+                    <displayName>Debug Native Executable</displayName>
+                    <goals>
+                        <goal>exec:exec@debug</goal>
+                    </goals>
+                    <properties>
+                    </properties>
+                    <activatedProfiles>
+                        <activatedProfile>native-image</activatedProfile>
+                    </activatedProfiles>
+                </action>
             </actions>
         </profile>
     </profiles>
