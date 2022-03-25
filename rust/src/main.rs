@@ -1,4 +1,3 @@
-#[warn(non_snake_case)]
 
 #[derive(Debug)]
 struct Natural {
@@ -58,7 +57,7 @@ impl Filter {
                     break;
                 },
                 Some(n) => {
-                    at = n;
+                    // at = n;
                 },
             }
         }
@@ -75,4 +74,18 @@ fn main() {
     f.acceptAndAdd(3);
     f.acceptAndAdd(4);
     println!("Fill {:?}", f);
+}
+
+
+#[cfg(test)]
+mod tests {
+    use crate::Natural;
+
+    #[test]
+    fn naturalNumberGenerator() {
+        let mut g = Natural::new();
+        assert_eq!(g.next(), 2);
+        assert_eq!(g.next(), 3);
+        assert_eq!(g.next(), 4);
+    }
 }
