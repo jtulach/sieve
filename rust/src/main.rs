@@ -23,69 +23,71 @@ struct Filter {
 
 impl Filter {
     fn new(n : i32) -> Filter {
-        Filter {
-            n : n,
-            next : None,
-        }
+        Filter { n, next : None }
     }
 
-    fn acceptAndAdd(&mut self, n : i32) -> bool {
-        let mut filter: &Filter = self;
+    fn acceptAndAdd(f: Box<Filter>, n : i32) -> (bool, Box<Filter>) {
+        let mut filter = f;
         let upto : i32 = (n as f64).sqrt() as i32;
         loop {
                 if (n % filter.n) == 0 {
-                    return false;
+                    return (false, filter);
                 }
                 if filter.n > upto {
                     break;
                 }
-                match &filter.next {
+                match filter.next {
                     None => break,
-                    Some(go) => filter = &go,
+                    Some(go) => filter = go
                 }
         }
         let f = Filter::new(n);
-        Filter::append(self, f);
-        return true;
+        return (true, Filter::append(filter, Box::new(f)));
     }
 
-    fn append(at : &mut Filter, f : Filter) {
-        loop {
-            match &at.next {
-                None => {
-                    at.next = Some(Box::new(f));
-                    break;
-                },
-                Some(n) => {
-                    // at = n;
-                },
-            }
-        }
+    fn append(mut at : Box<Filter>, f : Box<Filter>) -> Box<Filter> {
+        let my = at.next.take();
+        let alloc = match my {
+            None => f,
+            Some(item) => {
+                let mut r = item;
+                let n = Filter::append(r, f);
+                n
+            },
+        };
+        at.next = Some(alloc);
+        return at;
     }
 }
 
 fn main() {
-    let mut g = Natural::new();
-    for _ in 1..30 {
-        print!("{} ", g.next())
-    }
-    println!("");
-    let mut f = Filter::new(2);
-    f.acceptAndAdd(3);
-    f.acceptAndAdd(4);
-    println!("Fill {:?}", f);
+    let g = Natural::new();
+    println!("Fill {:?}", g);
 }
 
 
 #[cfg(test)]
 mod tests {
-    use crate::Natural;
+    use super::Natural;
+    use super::Filter;
 
     #[test]
-    fn naturalNumberGenerator() {
+    fn natural_number_generator() {
         let mut g = Natural::new();
         assert_eq!(g.next(), 2);
         assert_eq!(g.next(), 3);
         assert_eq!(g.next(), 4);
+    }
+
+    #[test]
+    fn filter_list() {
+        let f = Box::new(Filter::new(2));
+        let (add3, f3) = Filter::acceptAndAdd(f, 3);
+        assert!(add3);
+        let (add4, f4) = Filter::acceptAndAdd(f3, 4);
+        assert!(!add4);
+        let (add5, f5) = Filter::acceptAndAdd(f4, 5);
+        assert!(add5);
+        println!("Fill {:?}", *f5);
     }
 }
