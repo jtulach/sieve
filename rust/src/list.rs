@@ -28,8 +28,17 @@ impl<'a, T> Iterator for NodeIterator<'a, T> {
 }
 
 pub struct List<T> {
-    first: NonNull<Node<T>>,
-    last: NonNull<Node<T>>,
+    first: Option<NonNull<Node<T>>>,
+    last: Option<NonNull<Node<T>>>,
+}
+
+impl<T> Default for List<T> {
+    fn default() -> Self {
+        Self {
+            first: None,
+            last: None,
+        }
+    }
 }
 
 impl<'a, T> IntoIterator for &'a List<T> {
@@ -37,40 +46,30 @@ impl<'a, T> IntoIterator for &'a List<T> {
     type IntoIter = NodeIterator<'a, T>;
     fn into_iter(self) -> Self::IntoIter {
         NodeIterator {
-            node: Some(unsafe { self.first.as_ref() }),
+            node: self.first.map(|f| unsafe { f.as_ref() }),
         }
     }
 }
 
 impl<T> crate::collection::CollectionTrait<T> for List<T> {
-    fn new(starting: T) -> Self {
-        let ptr = Node::new_ptr(starting);
-        Self {
-            first: ptr,
-            last: ptr,
-        }
-    }
-
     fn push_back(&mut self, value: T) {
         let ptr = Node::new_ptr(value);
-        unsafe { self.last.as_mut() }.next = Some(ptr);
-        self.last = ptr;
+        match &mut self.last {
+            Some(last) => unsafe { last.as_mut() }.next = Some(ptr),
+            None => self.first = Some(ptr),
+        }
+        self.last = Some(ptr);
     }
 }
 
 impl<T> Drop for List<T> {
     fn drop(&mut self) {
-        let mut node_ptr = self.first.as_ptr();
-        loop {
-            let next_ptr = unsafe { (*node_ptr).next };
+        let mut node = self.first;
+        while let Some(ptr) = node {
+            node = unsafe { ptr.as_ref().next };
 
             //dealloc
-            unsafe { Box::from_raw(node_ptr) };
-
-            match next_ptr {
-                Some(next_ptr) => node_ptr = next_ptr.as_ptr(),
-                None => break,
-            }
+            unsafe { Box::from_raw(ptr.as_ptr()) };
         }
     }
 }

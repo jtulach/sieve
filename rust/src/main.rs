@@ -17,9 +17,12 @@ impl Default for Natural {
     }
 }
 
-impl Natural {
-    fn next(&self) -> Self {
-        Self { cnt: self.cnt + 1 }
+impl Iterator for Natural {
+    type Item = Int;
+    fn next(&mut self) -> Option<Self::Item> {
+        let old = self.cnt;
+        self.cnt += 1;
+        Some(old)
     }
 }
 
@@ -33,21 +36,16 @@ struct Filter {
 
 impl Filter {
     fn divides(&self, number: Int) -> bool {
-        number % self.prime == 0
+        self.prime != 0 && number % self.prime == 0
     }
 }
 
+#[derive(Default)]
 struct Filters {
     filters: Collection<Filter>,
 }
 
 impl Filters {
-    fn new() -> Self {
-        Self {
-            filters: <Collection<Filter> as CollectionTrait<Filter>>::new(Filter { prime: 2 }),
-        }
-    }
-
     fn accept_and_add(&mut self, number: Int) -> bool {
         let upto = (number as f32).sqrt() as Int;
         let res = !(&self.filters)
@@ -61,34 +59,26 @@ impl Filters {
     }
 }
 
+#[derive(Default)]
 struct Primes {
     natural: Natural,
     filters: Filters,
 }
 
-impl Default for Primes {
-    fn default() -> Self {
-        Self {
-            natural: Natural::default(),
-            filters: Filters::new(),
-        }
-    }
-}
-
 impl Primes {
     fn next(&mut self) -> Int {
-        loop {
-            self.natural = self.natural.next();
-
-            if self.filters.accept_and_add(self.natural.cnt) {
-                break self.natural.cnt;
+        while let Some(cnt) = self.natural.next() {
+            if self.filters.accept_and_add(cnt) {
+                return cnt;
             }
         }
+        // should never happen
+        0
     }
 
     fn compute(&mut self) -> Int {
         let start = Instant::now();
-        let mut cnt = 1;
+        let mut cnt = 0;
         let mut prnt_cnt = 97;
         loop {
             let res = self.next();
