@@ -1,0 +1,10 @@
+from Standard.Base import IO
+
+type Generator h t
+
+natural =
+    gen ~n = Generator n (gen n+1)
+    gen 2
+
+main = case here.natural of
+    Generator v _ -> IO.println v
