@@ -1,14 +1,24 @@
 from Standard.Base import IO
 
-type Generator h
+type Gen
+    type Generator a:Int tail:Any -> Gen
 
-Generator.natural = Generator 2
-Generator.next = case this of
-    Generator n -> Generator n+1
+    next : Gen
+    next = this.tail 0
+
+    n = this.a
+
+natural : Gen
+natural =
+    gen = n -> Generator n (_ -> gen (n + 1))
+    gen 2
+
+
+printN : Gen -> Int -> Any
+printN g n = if n == 0 then 0 else
+    IO.println g.n
+    here.printN g.next n-1
 
 main =
-    four = Generator.natural.next.next
-    case four of
-        Generator v ->
-            IO.println v
-            IO.println four.next.next.next
+    two = here.natural
+    here.printN two 12
