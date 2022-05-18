@@ -1,3 +1,7 @@
+import Standard.Base.Meta
+import Standard.Base.Runtime.Unsafe
+import Standard.Base.Data.Time
+from Standard.Base.Data.Boolean import True, False
 from Standard.Base import IO
 
 type Gen
@@ -13,12 +17,51 @@ natural =
     gen = n -> Generator n (_ -> gen (n + 1))
     gen 2
 
+type Filter
+    type Empty
+    type Item n:Int next:Filter
+    type Head first:Filter last:Filter
 
-printN : Gen -> Int -> Any
-printN g n = if n == 0 then 0 else
-    IO.println g.n
-    here.printN g.next n-1
+    acceptAndAdd : Int
+    acceptAndAdd n =
+        upto = n.sqrt
+
+        iterate f = case f of
+            Item p next -> if n % p == 0 then False else
+                if p > upto then True else @Tail_Call iterate next
+            Empty -> True
+
+        appendN head last =
+            newLast = Item n Empty
+            Unsafe.set_atom_field last 1 newLast
+            Head head.first newLast
+
+        case this of
+            Empty ->
+                first = Item n Empty
+                Head first first
+            Head _ _ -> if iterate this.first then appendN this this.last else this
+
+type Primes generator filter
+
+Primes.next = case this of
+    Primes g f ->
+        filter = f.acceptAndAdd g.n
+        new_primes = Primes g.next filter
+        if filter == f then @Tail_Call new_primes.next else new_primes
+
+Primes.lastPrime = case this of
+    Primes g _ -> g.n - 1
+
+compute_nth_prime : Primes -> Int -> Any
+compute_nth_prime p n = if n == 0 then p else
+    pn = p.next
+    @Tail_Call here.compute_nth_prime pn n-1
 
 main =
-    two = here.natural
-    here.printN two 12
+    at = Time.now.to_epoch_milliseconds
+    p = Primes here.natural Empty
+    r = here.compute_nth_prime p 100000
+    now = Time.now.to_epoch_milliseconds
+    IO.println <| "Hundred thousand prime numbers in " + (now - at).to_text + " ms. Last one is " + r.lastPrime.to_text
+    @Tail_Call here.main
