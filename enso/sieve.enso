@@ -5,24 +5,24 @@ from Standard.Base.Data.Boolean import True, False
 from Standard.Base import IO
 
 type Gen
-    type Generator a:Int tail:Any -> Gen
+    type Generator a:Int
 
     next : Gen
-    next = this.tail 0
+    next =
+        Unsafe.set_atom_field this 0 this.a+1
+        this.a
 
     n = this.a
 
 natural : Gen
-natural =
-    gen = n -> Generator n (_ -> gen (n + 1))
-    gen 2
+natural = Generator 1
 
 type Filter
     type Empty
     type Item n:Int next:Filter
     type Head first:Filter last:Filter
 
-    acceptAndAdd : Int
+    acceptAndAdd : Int -> Boolean
     acceptAndAdd n =
         upto = n.sqrt
 
@@ -34,21 +34,24 @@ type Filter
         appendN head last =
             newLast = Item n Empty
             Unsafe.set_atom_field last 1 newLast
-            Head head.first newLast
+            Unsafe.set_atom_field head 1 newLast
+            head
 
         case this of
             Empty ->
                 first = Item n Empty
                 Head first first
-            Head _ _ -> if iterate this.first then appendN this this.last else this
+            Head _ _ -> if iterate this.first then appendN this this.last else Empty
 
 type Primes generator filter
 
 Primes.next = case this of
     Primes g f ->
-        filter = f.acceptAndAdd g.n
-        new_primes = Primes g.next filter
-        if filter == f then @Tail_Call new_primes.next else new_primes
+        case f.acceptAndAdd g.next of
+            Empty -> @Tail_Call this.next
+            head ->
+                Unsafe.set_atom_field this 1 head
+                this
 
 Primes.lastPrime = case this of
     Primes g _ -> g.n - 1
