@@ -9,10 +9,10 @@ type Gen
 
     next : Gen
     next =
-        Unsafe.set_atom_field this 0 this.a+1
-        this.a
+        Unsafe.set_atom_field self 0 self.a+1
+        self.a
 
-    n = this.a
+    n = self.a
 
 natural : Gen
 natural = Generator 1
@@ -37,23 +37,23 @@ type Filter
             Unsafe.set_atom_field head 1 newLast
             head
 
-        case this of
+        case self of
             Empty ->
                 first = Item n Empty
                 Head first first
-            Head _ _ -> if iterate this.first then appendN this this.last else Empty
+            Head _ _ -> if iterate self.first then appendN self self.last else Empty
 
 type Primes generator filter
 
-Primes.next = case this of
+Primes.next = case self of
     Primes g f ->
         case f.acceptAndAdd g.next of
-            Empty -> @Tail_Call this.next
+            Empty -> @Tail_Call self.next
             head ->
-                Unsafe.set_atom_field this 1 head
-                this
+                Unsafe.set_atom_field self 1 head
+                self
 
-Primes.lastPrime = case this of
+Primes.lastPrime = case self of
     Primes g _ -> g.n - 1
 
 compute_nth_prime : Primes -> Int -> Any
