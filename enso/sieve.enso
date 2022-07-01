@@ -4,19 +4,6 @@ import Standard.Base.Data.Time
 from Standard.Base.Data.Boolean import True, False
 from Standard.Base import IO
 
-type Gen
-    type Generator a:Int
-
-    next : Gen
-    next =
-        Unsafe.set_atom_field self 0 self.a+1
-        self.a
-
-    n = self.a
-
-natural : Gen
-natural = Generator 1
-
 type Filter
     type Empty
     type Item n:Int next:Filter
@@ -68,3 +55,13 @@ main =
     now = Time.now.to_epoch_milliseconds
     IO.println <| "Hundred thousand prime numbers in " + (now - at).to_text + " ms. Last one is " + r.lastPrime.to_text
     @Tail_Call here.main
+
+
+foreign js natural = """
+    function Natural() {
+        this.n = 2;
+    }
+    Natural.prototype.next = function() {
+        return this.n++;
+    }
+    return new Natural();
