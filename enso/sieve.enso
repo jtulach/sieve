@@ -17,41 +17,20 @@ type Gen
 natural : Gen
 natural = Generator 1
 
-type Filter
-    type Empty
-    type Item n:Int next:Filter
-    type Head first:Filter last:Filter
-
-    acceptAndAdd : Int -> Boolean
-    acceptAndAdd n =
-        upto = n.sqrt
-
-        iterate f = case f of
-            Item p next -> if n % p == 0 then False else
-                if p > upto then True else @Tail_Call iterate next
-            Empty -> True
-
-        appendN head last =
-            newLast = Item n Empty
-            Unsafe.set_atom_field last 1 newLast
-            Unsafe.set_atom_field head 1 newLast
-            head
-
-        case self of
-            Empty ->
-                first = Item n Empty
-                Head first first
-            Head _ _ -> if iterate self.first then appendN self self.last else Empty
-
-type Primes generator filter
+type ComputedPrimes
+    type Primes generator filter
+    type NoPrimes generator
 
 Primes.next = case self of
+    NoPrimes g -> Primes g (here.filter g.next)
     Primes g f ->
         case f.acceptAndAdd g.next of
-            Empty -> @Tail_Call self.next
-            head ->
-                Unsafe.set_atom_field self 1 head
+            False -> @Tail_Call self.next
+            True ->
                 self
+
+NoPrimes.next = case self of
+    NoPrimes g -> Primes g (here.filter g.next)
 
 Primes.lastPrime = case self of
     Primes g _ -> g.n - 1
@@ -63,8 +42,33 @@ compute_nth_prime p n = if n == 0 then p else
 
 main =
     at = Time.now.to_epoch_milliseconds
-    p = Primes here.natural Empty
+    p = NoPrimes here.natural
     r = here.compute_nth_prime p 100000
     now = Time.now.to_epoch_milliseconds
     IO.println <| "Hundred thousand prime numbers in " + (now - at).to_text + " ms. Last one is " + r.lastPrime.to_text
     @Tail_Call here.main
+
+foreign js filter number = """
+    function Filter(number) {
+        this.number = number;
+        this.next = null;
+        this.last = this;
+    }
+    Filter.prototype.acceptAndAdd = function(n) {
+      var filter = this;
+      var sqrt = Math.sqrt(n);
+      for (;;) {
+          if (n % filter.number === 0) {
+              return false;
+          }
+          if (filter.number > sqrt) {
+              break;
+          }
+          filter = filter.next;
+      }
+      var newFilter = new Filter(n);
+      this.last.next = newFilter;
+      this.last = newFilter;
+      return true;
+    };
+    return new Filter(number);
