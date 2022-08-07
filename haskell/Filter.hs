@@ -1,4 +1,8 @@
-
+module Filter (
+    FingerTree,
+    emptyTree,
+    acceptAndAdd,
+) where
 
 data FingerTree a =
     Empty |
@@ -28,6 +32,8 @@ fromnode :: Node a -> [a]
 fromnode (Node2 x y) = [x, y]
 fromnode (Node3 x y z) = [x, y, z]
 
+emptyTree :: FingerTree a
+emptyTree = Empty
 
 append :: a -> FingerTree a -> FingerTree a
 append x Empty = Single x
@@ -51,3 +57,16 @@ aslist (Deep p t a) = (fromdigit p) ++ (listofa t) ++ (fromdigit a)
 
         listofa :: FingerTree (Node a) -> [a]
         listofa t = foldr (++) [] (listoflista t)
+
+
+acceptAndAdd :: Int -> FingerTree Int -> (Bool, FingerTree Int)
+acceptAndAdd n t = checkandadd primesupto
+    where
+        upto = floor (sqrt (fromIntegral n)) + 1
+        allprimes = aslist t
+        primesupto = filter (\x -> x < upto) allprimes
+        checkandadd :: [Int] -> (Bool, FingerTree Int)
+        checkandadd [] = (True, append n t)
+        checkandadd (h : r) = if rem n h == 0 then (False, t)
+            else checkandadd r
+
