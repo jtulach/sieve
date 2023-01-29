@@ -1,67 +1,70 @@
+import Standard.Base.Any.Any
 import Standard.Base.Meta
-import Standard.Base.Runtime.Unsafe
-import Standard.Base.Data.Time
+import Standard.Base.Data.Time.Date_Time.Date_Time
+import Standard.Base.Data.Numbers.Integer
 from Standard.Base.Data.Boolean import True, False
 from Standard.Base import IO
 
 type Gen
-    type Generator a:Int tail:Any -> Gen
+    Generator a:Integer tail:Any->Gen
 
     next : Gen
-    next = this.tail 0
+    next self = self.tail 0
 
-    n = this.a
+    n self = self.a
 
 natural : Gen
 natural =
-    gen = n -> Generator n (_ -> gen (n + 1))
+    gen = n -> Gen.Generator n (_ -> gen (n + 1))
     gen 2
 
 type Filter
-    type Empty
-    type Item n:Int next:Filter
-    type Head first:Filter last:Filter
+    Empty
+    Item n:Integer next:Filter
+    Head first:Filter set_last:Filter->Nothing
 
-    acceptAndAdd : Int
-    acceptAndAdd n =
+    acceptAndAdd : Integer
+    acceptAndAdd self n =
         upto = n.sqrt
 
         iterate f = case f of
-            Item p next -> if n % p == 0 then False else
+            Filter.Item p next -> if n % p == 0 then False else
                 if p > upto then True else @Tail_Call iterate next
-            Empty -> True
+            Filter.Empty -> True
 
-        appendN head last =
-            newLast = Item n Empty
-            Unsafe.set_atom_field last 1 newLast
-            Head head.first newLast
+        appendN head set_last =
+            pair = Meta.atom_with_hole (h -> Filter.Item n h)
+            newLast = pair.value
+            set_last newLast
+            Filter.Head head.first pair.fill
 
-        case this of
-            Empty ->
-                first = Item n Empty
-                Head first first
-            Head _ _ -> if iterate this.first then appendN this this.last else this
+        case self of
+            Filter.Empty ->
+                pair = Meta.atom_with_hole (h -> Filter.Item n h)
+                Filter.Head pair.value pair.fill
+            Filter.Head _ _ -> if iterate self.first then appendN self self.set_last else self
 
-type Primes generator filter
+type Primes 
+    Alg generator filter
 
-Primes.next = case this of
-    Primes g f ->
+Primes.next self = case self of
+    Primes.Alg g f ->
         filter = f.acceptAndAdd g.n
-        new_primes = Primes g.next filter
-        if filter == f then @Tail_Call new_primes.next else new_primes
+        new_primes = Primes.Alg g.next filter
+        if Meta.is_same_object filter f then @Tail_Call new_primes.next else new_primes
 
-Primes.lastPrime = case this of
-    Primes g _ -> g.n - 1
+Primes.lastPrime self = case self of
+    Primes.Alg g _ -> g.n - 1
 
-compute_nth_prime : Primes -> Int -> Any
+compute_nth_prime : Primes -> Integer -> Any
 compute_nth_prime p n = if n == 0 then p else
     pn = p.next
-    @Tail_Call here.compute_nth_prime pn n-1
+    @Tail_Call compute_nth_prime pn n-1
 
 main =
-    at = Time.now.to_epoch_milliseconds
-    p = Primes here.natural Empty
-    r = here.compute_nth_prime p 100000
-    now = Time.now.to_epoch_milliseconds
+    at = Date_Time.now.to_unix_epoch_milliseconds
+    p = Primes.Alg natural Filter.Empty
+    r = compute_nth_prime p 100000
+    now = Date_Time.now.to_unix_epoch_milliseconds
     IO.println <| "Hundred thousand prime numbers in " + (now - at).to_text + " ms. Last one is " + r.lastPrime.to_text
-    @Tail_Call here.main
+    @Tail_Call main
