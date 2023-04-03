@@ -25,11 +25,9 @@ type Filter
 
     acceptAndAdd : Integer
     acceptAndAdd self n =
-        upto = n.sqrt
-
         iterate f = case f of
             Filter.Item p next -> if n % p == 0 then False else
-                if p > upto then True else @Tail_Call iterate next
+                if p * p > n then True else @Tail_Call iterate next
             Filter.Empty -> True
 
         appendN head set_last =
