@@ -59,10 +59,12 @@ compute_nth_prime p n = if n == 0 then p else
     pn = p.next
     @Tail_Call compute_nth_prime pn n-1
 
-main =
+loop =
     at = Date_Time.now.to_unix_epoch_milliseconds
     p = Primes.Alg natural Filter.Empty
     r = compute_nth_prime p 100000
     now = Date_Time.now.to_unix_epoch_milliseconds
     IO.println <| "Hundred thousand prime numbers in " + (now - at).to_text + " ms. Last one is " + r.lastPrime.to_text
-    @Tail_Call main
+    @Tail_Call loop
+
+main = loop
