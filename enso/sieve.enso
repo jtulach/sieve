@@ -6,16 +6,14 @@ from Standard.Base.Data.Boolean import True, False
 from Standard.Base import IO
 
 type Gen
-    Generator a:Integer tail:Any->Gen
+    Generator n:Integer ~tail:Gen
 
     next : Gen
-    next self = self.tail 0
-
-    n self = self.a
+    next self = self.tail
 
 natural : Gen
 natural =
-    gen = n -> Gen.Generator n (_ -> gen (n + 1))
+    gen n = Gen.Generator n (gen n+1)
     gen 2
 
 type Filter
